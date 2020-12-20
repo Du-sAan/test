@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    起飞
   </div>
 </template>
+
 <script>
 export default {
   name: 'App'
 } 
 </script>
+
 <style>
+@import url("./assets/css/base.css");
 </style>
