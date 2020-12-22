@@ -4,7 +4,7 @@
      :key="item"
      class="tab-control-item"
      :class="setActive(index)"
-     @click="itemClick(index)">
+     @click="itemClick(index),type(index)">
 
       <span>{{item}}</span>
     </div>
@@ -34,6 +34,15 @@ export default {
     },
     itemClick(index){
       this.index = index
+    },
+    type(index){
+      if(index == 0){
+        this.$emit('type','pop')
+      }else if(index == 1){
+        this.$emit('type','new')
+      }else{
+        this.$emit('type','sell')
+      }
     }
   }
 }

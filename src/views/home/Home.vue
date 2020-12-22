@@ -8,8 +8,11 @@
     <HomeSwiper :banners="banners" class="home-swiper"></HomeSwiper>
     <HomeRecom-view :recommend="recommend"></HomeRecom-view>
     <home-fearture></home-fearture>
-    <tab-control :titles="['流行','新款','精选']" class="tab-control" />
-    <goods-list :goods="goods['pop'].list"></goods-list>
+    <tab-control 
+    :titles="['流行','新款','精选']" 
+    class="tab-control" 
+    @type="home_type"/>
+    <goods-list :goods="showGoods"></goods-list>
   </div>
 
 </template>
@@ -43,7 +46,8 @@ export default {
         'pop' : {page : 0, list : []},
         'new' : {page : 0, list : []},
         'sell' : {page : 0, list : []},
-      }
+      },
+      type : 'pop'
     }
   },
   // 当组件被创建时，请求网络请求
@@ -75,6 +79,14 @@ export default {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
       })
+    },
+    home_type(type){
+      this.type = type
+    }
+  },
+  computed: {
+    showGoods(){
+      return this.goods[this.type].list
     }
   }
 }
@@ -82,7 +94,7 @@ export default {
 
 <style>
   #home{
-    /* padding-top: 44px; */
+    padding-top: 44px;
     /* 抵消下方tabbar的高度 */
     padding-bottom: 49px;
   }
@@ -93,7 +105,7 @@ export default {
       进而导致上方导航栏上移
       所以给轮播图一个margin-top，把轮播图往下挤，
     */
-    margin-top: 44px;
+    /* margin-top: 44px; */
   }
   .home-nav{
     /* 在父组件home中给以子组件nar-bar样式 */
