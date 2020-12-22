@@ -5,24 +5,70 @@
         购物街
       </div>
     </NavBar>
-    <HomeSwiper :banners="banners"></HomeSwiper>
+    <HomeSwiper :banners="banners" class="home-swiper"></HomeSwiper>
     <HomeRecom-view :recommend="recommend"></HomeRecom-view>
+    <home-fearture/>
+    <tab-control :titles="['流行','新款','精选']" class="tab-control" />
+    <ul>
+      <li>1</li>
+      <li>3</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>0</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+    </ul>
   </div>
 
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar"
-import {getHomeMultidata} from "network/home_request.js"
-import HomeSwiper from "./childComps/HomeSwiper.vue"
-import HomeRecomView from "./childComps/HomeRecomView.vue"
+import TabControl from "components/content/TabControl/TabControl"
 
+import {getHomeMultidata} from "network/home_request.js"
+
+import HomeSwiper from "./childComps/Swiper.vue"
+import HomeRecomView from "./childComps/RecomView.vue"
+import HomeFearture from "./childComps/FeatureView.vue"
 export default {
   name : "Home",
   components : {
     NavBar,
+    TabControl,
     HomeSwiper,
-    HomeRecomView
+    HomeRecomView,
+    HomeFearture,
   },
   data () {
     return {
@@ -40,16 +86,34 @@ export default {
       this.banners = res.data.banner.list;
       this.recommend = res.data.recommend.list
       // 拦截器 this.banner = red.data.data.recommend.list
-      console.log(this.recommend)
+      // console.log(res.data)
     })
   },
 }
 </script>
 
 <style>
+  #home{
+    /* padding-top: 44px; */
+    /* 抵消下方tabbar的高度 */
+    padding-bottom: 49px;
+  }
+  .home-swiper{
+    /* 因为上方导航栏绝对定位，脱离文档流 
+      导致轮播图下移44px,而上方的导航栏遮住了轮播图
+      但是给home设置padding:44px,导致视口也被挤上去，
+      进而导致上方导航栏上移
+      所以给轮播图一个margin-top，把轮播图往下挤，
+    */
+    margin-top: 44px;
+  }
   .home-nav{
     /* 在父组件home中给以子组件nar-bar样式 */
     background-color: var(--color-tint);
     color : white;
+  }
+  .tab-control{
+    position: sticky;
+    top: 44px;
   }
 </style>
