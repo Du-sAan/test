@@ -3,7 +3,12 @@
     <NavBar class="home-nav">
       <div slot="center">购物街</div>
     </NavBar>
-    <Bscroll ref="scroll" :probe-type="3" @contentScroll="contentScroll" :pullUpLoad="true">
+    <Bscroll
+      ref="scroll" 
+      :probe-type="3" 
+      @contentScroll="contentScroll" 
+      :pullUpLoad="true"
+      @pullingUp="upData">
       <HomeSwiper :banners="banners" class="home-swiper"></HomeSwiper>
       <HomeRecom-view :recommend="recommend"></HomeRecom-view>
       <home-fearture></home-fearture>
@@ -21,6 +26,7 @@ import GoodsList from "components/content/goods/GoodsList.vue";
 import Bscroll from "components/common/bscroll/Bscroll.vue";
 import BackTop from "components/content/BackTop/BackTop.vue";
 
+import { debounce, throttle } from "common/utils.js";
 import { getHomeMultidata, getHomeGoods } from "network/home_request.js";
 
 import HomeSwiper from "./childComps/Swiper.vue";
@@ -62,24 +68,13 @@ export default {
     this.getHomeGoods("sell");
   },
   mounted() {
-   const result =  this.debounce(this.$refs.scroll.refresh, 500)
-   this.$bus.$on("imgLoad", () => {
-      result()
+    let result = debounce(this.$refs.scroll.refresh, 500);
+    result = throttle(this.$refs.scroll.refresh, 300);
+    this.$bus.$on("imgLoad", () => {
+      result();
     });
   },
   methods: {
-    debounce(func, dalay) {
-      let timer = null;
-
-      return function(...args) {
-        if (timer) {
-          clearTimeout(timer);
-        }
-        timer = setTimeout(() => {
-          func.apply(this, args)
-        }, dalay);
-      };
-    },
     getHomeMultidata() {
       getHomeMultidata().then(res => {
         // 取出网络请求返回的data,并存放在home的data中
@@ -111,6 +106,11 @@ export default {
     contentScroll(position) {
       // console.log(position)
       this.isShowBackTop = position.y < -850 ? true : false;
+    },
+    upData(){
+      this.getHomeGoods(this.type);
+      // 刷新触底函数的次数
+      this.$refs.scroll.finishPullUp();
     }
   },
   computed: {

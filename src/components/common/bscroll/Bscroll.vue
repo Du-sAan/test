@@ -21,6 +21,10 @@ export default {
       defaule() {
         return 0;
       }
+    },
+    pullUpLoad :{
+      type : Boolean,
+      default : false
     }
   },
   mounted() {
@@ -33,6 +37,9 @@ export default {
     this.bs.on("scroll", position => {
       this.$emit("contentScroll", position);
     });
+    this.bs.on('pullingUp',() =>{
+      this.$emit('pullingUp')
+    })
   },
   methods: {
     // 封装bs对象中的方法
@@ -43,7 +50,6 @@ export default {
       this.bs && this.bs.finishPullUp();
     },
     refresh() {
-      console.log('起飞')
       this.bs && this.bs.refresh();
     }
   }
