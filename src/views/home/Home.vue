@@ -3,13 +3,14 @@
     <NavBar class="home-nav">
       <div slot="center">购物街</div>
     </NavBar>
-    <Bscroll class="content">
+    <Bscroll ref="scroll" :probe-type="3" @contentScroll="contentScroll" :pullUpLoad="true">
       <HomeSwiper :banners="banners" class="home-swiper"></HomeSwiper>
       <HomeRecom-view :recommend="recommend"></HomeRecom-view>
       <home-fearture></home-fearture>
       <tab-control :titles="['流行','新款','精选']" class="tab-control" @type="home_type" />
       <goods-list :goods="showGoods"></goods-list>
     </Bscroll>
+    <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/TabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList.vue";
 import Bscroll from "components/common/bscroll/Bscroll.vue";
+import BackTop from "components/content/BackTop/BackTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home_request.js";
 
@@ -32,6 +34,7 @@ export default {
     TabControl,
     GoodsList,
     Bscroll,
+    BackTop,
     HomeSwiper,
     HomeRecomView,
     HomeFearture
@@ -45,19 +48,38 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      type: "pop"
+      type: "pop",
+      isShowBackTop: false
     };
   },
   // 当组件被创建时，请求网络请求
   created() {
     // 请求轮播图和推荐的数据
     this.getHomeMultidata();
-    // 请求主页商品的数据
+    // 组件一被创建，。默认请求主页商品的数据
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
+  mounted() {
+   const result =  this.debounce(this.$refs.scroll.refresh, 500)
+   this.$bus.$on("imgLoad", () => {
+      result()
+    });
+  },
   methods: {
+    debounce(func, dalay) {
+      let timer = null;
+
+      return function(...args) {
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+          func.apply(this, args)
+        }, dalay);
+      };
+    },
     getHomeMultidata() {
       getHomeMultidata().then(res => {
         // 取出网络请求返回的data,并存放在home的data中
@@ -80,6 +102,15 @@ export default {
     },
     home_type(type) {
       this.type = type;
+    },
+    backTop() {
+      // 拿到Bscroll组件对象中的bs，调用方法，回到顶部
+      // this.$refs.scroll.bs.scrollTo
+      this.$refs.scroll.scrollTo(0, 0, 500);
+    },
+    contentScroll(position) {
+      // console.log(position)
+      this.isShowBackTop = position.y < -850 ? true : false;
     }
   },
   computed: {
@@ -91,20 +122,10 @@ export default {
 </script>
 
 <style scoped>
-#home{
+#home {
   padding-top: 44px;
   height: 100vh;
   position: relative;
-}
-.home-swiper {
-  /* 因为上方导航栏绝对定位，脱离文档流
-      导致轮播图下移44px,而上方的导航栏遮住了轮播图
-      但是给home设置padding:44px,导致视口也被挤上去，
-      进而导致上方导航栏上移
-      所以给轮播图一个margin-top，把轮播图往下挤，利用外边距重叠
-      这个属性被传给了body
-    */
-  /* margin-top: 44px; */
 }
 .home-nav {
   /* 在父组件home中给以子组件nar-bar样式 */
@@ -116,11 +137,15 @@ export default {
   top: 43px;
   z-index: 9;
 }
-.content{
+.content {
   /* height: calc(100% - 49px);  */
-  overflow: hidden;
+  /* overflow: hidden; */
   position: absolute;
   top: 44px;
-  bottom: 49px;
+  /* bottom: 49px; */
+  padding-bottom: 49px;
+}
+.wrapper {
+  height: calc(100% - 49px);
 }
 </style>
