@@ -17,8 +17,8 @@ export default {
     display: flex;
     position : fixed;
     left: 0;
-    bottom: 0;
-    z-index: 99;
+    bottom: 0px;
+    z-index: 9;
 
     height: 49px;
     width: 100%;

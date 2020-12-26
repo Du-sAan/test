@@ -178,7 +178,7 @@ export default {
 
 <style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
   height: 100vh;
   position: relative;
 }
@@ -189,7 +189,7 @@ export default {
 }
 .tab-control-top{
   position: absolute;
-  top: 0;
+  top: -44px;
   right: 0;
   left: 0;
 }
@@ -203,6 +203,7 @@ export default {
   z-index: 1;
 }
 .wrapper {
+  margin-top: 44px ;
   height: calc(100% - 93px);
 }
 #home .fixed{

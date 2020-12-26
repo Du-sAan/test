@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <keep-alive :exclude="blackList">
       <router-view/>
     </keep-alive>
     <main-tabbar/>
@@ -13,6 +13,11 @@ export default {
   name: 'App',
   components :{
     MainTabbar
+  },
+  data () {
+    return {
+      blackList : ['Detail']
+    }
   }
 } 
 </script>

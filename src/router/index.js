@@ -4,8 +4,9 @@ Vue.use(Router)
 
 const Home = () => import("views/home/Home.vue")
 const Cat = () => import("views/cat/Cat.vue")
-const Profile = () => import("../views/profile/Profile.vue")
-const Category = () => import("../views/category/Category.vue")
+const Profile = () => import("views/profile/Profile.vue")
+const Category = () => import("views/category/Category.vue")
+const Detail = () => import("views/detail/Detail.vue")
 const routes = [
   // 默认路径
   {
@@ -32,6 +33,10 @@ const routes = [
   {
     path: '/category',
     component: Category
+  },
+  {
+    path : "/detail",
+    component : Detail
   }
 
 ]

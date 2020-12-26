@@ -2,8 +2,8 @@
   <div class="nav-bar">
     <!-- 用DIV包裹住插槽，然后在插槽中写样式，是因为插槽会被替换，样式会丢失 -->
     <div class="left"><slot name="left"></slot></div>
-    <div class="center"><slot name="center"></slot></div>
-    <div class="right"><slot name="right"></slot></div>
+    <div class="center"><slot  name="center"></slot></div>
+    <div class="right"><slot  name="right"></slot></div>
   </div>
 </template>
 
