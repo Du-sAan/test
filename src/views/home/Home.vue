@@ -3,16 +3,34 @@
     <NavBar class="home-nav">
       <div slot="center">购物街</div>
     </NavBar>
+    <tab-control 
+        :titles="['流行','新款','精选']" 
+        ref="tabControlTop"
+        @tabClick="tabClick"
+        :class="{fixed:isTabFixed}"
+        class="tab-control-top"
+      />
     <Bscroll
-      ref="scroll" 
-      :probe-type="3" 
-      @contentScroll="contentScroll" 
+      ref="scroll"
+      :probe-type="3"
+      @contentScroll="contentScroll"
       :pullUpLoad="true"
       @pullingUp="upData">
-      <HomeSwiper :banners="banners" class="home-swiper"></HomeSwiper>
-      <HomeRecom-view :recommend="recommend"></HomeRecom-view>
-      <home-fearture></home-fearture>
-      <tab-control :titles="['流行','新款','精选']" class="tab-control" @type="home_type" />
+      <HomeSwiper 
+        :banners="banners" 
+        class="home-swiper" 
+        @swiperImgLoad="swiperImgLoad"
+      />
+      <HomeRecom-view 
+        :recommend="recommend" 
+        @recomImgLoad="recomImgLoad"
+      />
+      <home-fearture />
+      <tab-control 
+        :titles="['流行','新款','精选']" 
+        ref="tabControl" 
+        @tabClick="tabClick"
+      />
       <goods-list :goods="showGoods"></goods-list>
     </Bscroll>
     <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
@@ -55,7 +73,10 @@ export default {
         sell: { page: 0, list: [] }
       },
       type: "pop",
-      isShowBackTop: false
+      isShowBackTop: false,
+      tabControlTop : 0,
+      isTabFixed : false,
+      scrollY: 0
     };
   },
   // 当组件被创建时，请求网络请求
@@ -72,7 +93,16 @@ export default {
     result = throttle(this.$refs.scroll.refresh, 300);
     this.$bus.$on("imgLoad", () => {
       result();
-    });
+    }); 
+  },
+  activated () {
+    //进入home时，调用bs实例的scrollTo方法，进入离开之前的状态，重新计算一次
+    this.$refs.scroll.scrollTo(0, this.scrollY, 0)
+    this.$refs.scroll.refresh();
+  },
+  deactivated () {
+    // 记录离开home时，content的位置
+    this.scrollY = this.$refs.scroll.bs.y
   },
   methods: {
     getHomeMultidata() {
@@ -93,6 +123,9 @@ export default {
         // 将请求到的数据，添加到对应type的list中,在将相应的页码+1
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+
+        // 刷新触底函数的次数
+        this.$refs.scroll.finishPullUp();
       });
     },
     home_type(type) {
@@ -106,11 +139,33 @@ export default {
     contentScroll(position) {
       // console.log(position)
       this.isShowBackTop = position.y < -850 ? true : false;
+      if( (this.tabControlTop-44) < -position.y){
+        this.isTabFixed = true
+      }else{
+        this.isTabFixed = false
+      }
     },
-    upData(){
+    upData() {
       this.getHomeGoods(this.type);
-      // 刷新触底函数的次数
-      this.$refs.scroll.finishPullUp();
+    },
+    swiperImgLoad(){
+      this.tabControlTop = this.$refs.tabControl.$el.offsetTop;
+    },
+    recomImgLoad(){
+      // 不管weiper和recommend中谁的图片先加载，后加载的赋值操作会覆盖掉前面的赋值操作
+      // 这样就达到了同时监听两个图片的完成加载事件
+      this.tabControlTop = this.$refs.tabControl.$el.offsetTop;
+    },
+    tabClick(index) {
+      if(index == 0){
+        this.type = 'pop'
+      }else if(index == 1){
+        this.type = 'new'
+      }else{
+        this.type = 'sell'
+      }
+      this.$refs.tabControlTop.index = index;
+      this.$refs.tabControl.index = index;
     }
   },
   computed: {
@@ -132,10 +187,11 @@ export default {
   background-color: var(--color-tint);
   color: white;
 }
-.tab-control {
-  position: sticky;
-  top: 43px;
-  z-index: 9;
+.tab-control-top{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
 }
 .content {
   /* height: calc(100% - 49px);  */
@@ -144,8 +200,16 @@ export default {
   top: 44px;
   /* bottom: 49px; */
   padding-bottom: 49px;
+  z-index: 1;
 }
 .wrapper {
-  height: calc(100% - 49px);
+  height: calc(100% - 93px);
+}
+#home .fixed{
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
+  z-index: 9;
 }
 </style>

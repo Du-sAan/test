@@ -36,13 +36,14 @@ export default {
       this.index = index
     },
     type(index){
-      if(index == 0){
-        this.$emit('type','pop')
-      }else if(index == 1){
-        this.$emit('type','new')
-      }else{
-        this.$emit('type','sell')
-      }
+      // if(index == 0){
+      //   this.$emit('type','pop')
+      // }else if(index == 1){
+      //   this.$emit('type','new')
+      // }else{
+      //   this.$emit('type','sell')
+      // }
+      this.$emit('tabClick',index)
     }
   }
 }

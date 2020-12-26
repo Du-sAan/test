@@ -18,13 +18,11 @@ export default {
   props: {
     probeType: {
       type: Number,
-      defaule() {
-        return 0;
-      }
+      default:0
     },
-    pullUpLoad :{
-      type : Boolean,
-      default : false
+    pullUpLoad: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -34,12 +32,16 @@ export default {
       probeType: this.probeType,
       pullUpLoad: this.pullUpLoad
     });
-    this.bs.on("scroll", position => {
-      this.$emit("contentScroll", position);
-    });
-    this.bs.on('pullingUp',() =>{
-      this.$emit('pullingUp')
-    })
+    if (this.probeType === 2 || this.probeType === 3) {
+      this.bs.on("scroll", position => {
+        this.$emit("contentScroll", position);
+      });
+    }
+    if (this.pullUpLoad) {
+      this.bs.on("pullingUp", () => {
+        this.$emit("pullingUp");
+      });
+    }
   },
   methods: {
     // 封装bs对象中的方法

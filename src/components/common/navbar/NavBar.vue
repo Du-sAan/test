@@ -16,14 +16,14 @@ export default {
 <style>
   .nav-bar{
     display: flex;
-    
+
     /* 固定其定位 */
     position: fixed;
     left : 0;
     top : 0;
+    right: 0;
     z-index: 9;
-    width: 100%;
-
+    
     /* 设置nav-bar的行高使其中的文字能撑起nvabar的高度 */
     height: 44px;
     line-height: 44px;
