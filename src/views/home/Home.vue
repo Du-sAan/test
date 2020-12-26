@@ -203,7 +203,7 @@ export default {
   z-index: 1;
 }
 .wrapper {
-  margin-top: 44px ;
+  /* margin-top: 44px ; */
   height: calc(100% - 93px);
 }
 #home .fixed{
@@ -212,5 +212,8 @@ export default {
   left: 0;
   right: 0;
   z-index: 9;
+}
+.nav-bar{
+  position: relative;
 }
 </style>

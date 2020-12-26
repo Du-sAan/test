@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
   #hy-swiper{
-    height: 300px;
+    height: 200px;
     overflow: hidden;
   }
   
