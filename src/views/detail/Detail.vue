@@ -1,11 +1,13 @@
 <template>
   <div id="detail">
     <deta-nar-bar />
-    <bscroll>
+    <bscroll ref="bscroll">
       <detail-swiper :topImgs="topImgs" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
-      <detail-goods-info :detailGoodslInfo="detailGoodslInfo"/>
+      <detail-goods-info :detailGoodslInfo="detailGoodslInfo" @imagesLoad="imagesLoad" />
+      <detail-param-info :paramInfo="paramInfo" />
+      <detail-comment-info :commentInfo="commentInfo"/>
     </bscroll>
   </div>
 </template>
@@ -15,11 +17,18 @@ import DetaNarBar from "./childComps/DetaNavBar.vue";
 import DetailSwiper from "./childComps/DetailSwiper.vue";
 import DetailBaseInfo from "./childComps/DetailBaseInfo.vue";
 import DetailShopInfo from "./childComps/DetailShopInfo.vue";
-import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue"
-
+import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue";
+import DetailParamInfo from "./childComps/DetailParamInfo.vue";
+import DetailCommentInfo from "./childComps/DetailCommentInfo.vue"
 import Bscroll from "components/common/bscroll/Bscroll";
 
-import { getDetailData, Goods, Shop } from "network/detail_request.js";
+import {
+  getDetailData,
+  Goods,
+  Shop,
+  GoodsParam
+} from "network/detail_request.js";
+
 export default {
   name: "Detail",
   components: {
@@ -28,7 +37,9 @@ export default {
     DetailBaseInfo,
     DetailShopInfo,
     Bscroll,
-    DetailGoodsInfo
+    DetailGoodsInfo,
+    DetailParamInfo,
+    DetailCommentInfo
   },
   data() {
     return {
@@ -36,7 +47,9 @@ export default {
       topImgs: [],
       goods: {},
       shop: {},
-      detailGoodslInfo : {},
+      detailGoodslInfo: {},
+      paramInfo: {},
+      commentInfo: {}
     };
   },
   created() {
@@ -66,9 +79,24 @@ export default {
         this.shop = new Shop(data.shopInfo);
 
         // 4.商品详细信息的保存
-        this.detailGoodslInfo = data.detailInfo
-        // console.log(res)
+        this.detailGoodslInfo = data.detailInfo;
+
+        // 5.商品参数信息的保存
+        this.paramInfo = new GoodsParam(
+          data.itemParams.info,
+          data.itemParams.rule
+        );
+
+        // 商品评论信息的保存
+        // 若评论为不为空
+        if (data.rate.list) {
+          this.commentInfo = data.rate.list[0];
+        }
+        console.log(this.commentInfo);
       });
+    },
+    imagesLoad() {
+      this.$refs.bscroll.refresh();
     }
   }
 };
@@ -85,10 +113,10 @@ export default {
 .nav-bar {
   position: static;
   position: relative;
-  z-index:10;
+  z-index: 10;
   background-color: white;
 }
-.wrapper{
+.wrapper {
   height: calc(100% - 93px);
 }
 </style>

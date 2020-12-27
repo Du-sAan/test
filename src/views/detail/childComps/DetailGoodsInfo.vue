@@ -11,7 +11,8 @@
       <img 
         v-for="item in detailGoodslInfo.detailImage[0].list" 
         :src="item" alt=""
-        :key="item">
+        :key="item"
+        @load="imgLoad">
     </div>
   </div>
 </template>
@@ -22,6 +23,25 @@
     props: {
       detailGoodslInfo: {
         type: Object
+      }
+    },
+    data () {
+      return {
+        counter : 0,
+        imagesLength : 0
+      }
+    },
+    methods: {
+      imgLoad(){
+        this.counter += 1;
+        if(this.counter == this.imagesLength){
+          this.$emit('imagesLoad')
+        }
+      },
+    },
+    watch: {
+      detailGoodslInfo(){
+        this.imagesLength = this.detailGoodslInfo.detailImage[0].list.length
       }
     }
 	}
