@@ -97,7 +97,6 @@ export default {
   },
   activated () {
     //进入home时，调用bs实例的scrollTo方法，进入离开之前的状态，重新计算一次
-    console.log(this.$refs.scroll.bs.scrollTo)
     this.$refs.scroll.scrollTo(0, this.scrollY, 10)
     this.$refs.scroll.refresh();
   },

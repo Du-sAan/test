@@ -8,6 +8,8 @@
       <detail-goods-info :detailGoodslInfo="detailGoodslInfo" @imagesLoad="imagesLoad" />
       <detail-param-info :paramInfo="paramInfo" />
       <detail-comment-info :commentInfo="commentInfo"/>
+      <!-- <detail-recommend-info :recommendList="recommendList"/> -->
+      <goods-list :goods="recommendList"/>
     </bscroll>
   </div>
 </template>
@@ -20,13 +22,18 @@ import DetailShopInfo from "./childComps/DetailShopInfo.vue";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue";
 import DetailParamInfo from "./childComps/DetailParamInfo.vue";
 import DetailCommentInfo from "./childComps/DetailCommentInfo.vue"
+// import DetailRecommendInfo from "./childComps/DetailRecommendInfo.vue"
+import {debounce} from "common/utils"
+import GoodsList from "components/content/goods/GoodsList.vue"
+
 import Bscroll from "components/common/bscroll/Bscroll";
 
 import {
   getDetailData,
   Goods,
   Shop,
-  GoodsParam
+  GoodsParam,
+  getRecommend
 } from "network/detail_request.js";
 
 export default {
@@ -39,7 +46,9 @@ export default {
     Bscroll,
     DetailGoodsInfo,
     DetailParamInfo,
-    DetailCommentInfo
+    DetailCommentInfo,
+    // DetailRecommendInfo,
+    GoodsList
   },
   data() {
     return {
@@ -49,19 +58,25 @@ export default {
       shop: {},
       detailGoodslInfo: {},
       paramInfo: {},
-      commentInfo: {}
+      commentInfo: {},
+      recommendList : []
     };
   },
   created() {
     this.iid = this.$route.query.iid;
     this.getDetailData();
   },
-  activated() {
-    // this.iid = this.$route.query.iid
-    // this.getDetailData()
+  mounted () {
+    // 监听goodsListItem的发送的事件总线，然后刷新content的高度
+    // 防抖操作
+    const result = debounce(this.$refs.bscroll.refresh, 100)
+    this.$bus.$on("detailImg", () => {
+      result();
+    })
   },
   methods: {
     getDetailData() {
+      // 请求详情页的所有数据，除推荐
       getDetailData(this.iid).then(res => {
         const data = res.result;
         // 1.保存轮播图的数据
@@ -92,8 +107,12 @@ export default {
         if (data.rate.list) {
           this.commentInfo = data.rate.list[0];
         }
-        console.log(this.commentInfo);
       });
+      // 请求推荐商品的数据
+      getRecommend().then((res)=>{
+        this.recommendList = res.data.list
+        // console.log(this.recommendList)
+      })
     },
     imagesLoad() {
       this.$refs.bscroll.refresh();

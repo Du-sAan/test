@@ -19,7 +19,7 @@ export class Goods {
     this.realPrice = itemInfo.realPrice;
   }
 }
-
+// 商品参数
 export class GoodsParam {
   constructor(info, rule) {
     // 注: images可能没有值(某些商品有值, 某些没有值)
@@ -29,6 +29,7 @@ export class GoodsParam {
   }
 }
 
+// 店铺参数
 export class Shop {
   constructor(shopInfo) {
     this.logo = shopInfo.shopLogo;
@@ -40,3 +41,9 @@ export class Shop {
   }
 }
 
+// 推荐商品
+export function getRecommend(){
+  return request({
+    url : '/recommend'
+  })
+}
