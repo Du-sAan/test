@@ -7,7 +7,11 @@ const Cat = () => import("views/cat/Cat.vue")
 const Profile = () => import("views/profile/Profile.vue")
 const Category = () => import("views/category/Category.vue")
 const Detail = () => import("views/detail/Detail.vue")
-const routes = [
+const DetailParamInfo = () => import('views/detail/childComps/DetailParamInfo.vue')
+const DetailCommentInfo =  () => import('views/detail/childComps/DetailCommentInfo.vue')
+const DetailBaseInfo = () => import("views/detail/childComps/DetailBaseInfo.vue")
+const DetailRecommendInfo = () => import("components/content/goods/GoodsList.vue")
+  const routes = [
   // 默认路径
   {
     path: "",
@@ -17,7 +21,6 @@ const routes = [
   {
     path: "/home",
     component: Home,
-    
   },
   // cat
   {
@@ -36,7 +39,29 @@ const routes = [
   },
   {
     path : "/detail",
-    component : Detail
+    component : Detail,
+    children : [
+      {
+        path : "",
+        redirect: "/detail/baseInfo"
+      },
+      {
+        path : "baseInfo",
+        components: DetailBaseInfo 
+      },
+      {
+        path : "paramInfo",
+        component : DetailParamInfo
+      },
+      {
+        path : "commentInfo",
+        component : DetailCommentInfo
+      },
+      {
+        path : "recommendInfo",
+        component : DetailRecommendInfo
+      }
+    ]
   }
 
 ]

@@ -1,15 +1,18 @@
 <template>
   <div id="detail">
-    <deta-nar-bar />
+    <deta-nar-bar :DetailData="DetailData" />
     <bscroll ref="bscroll">
       <detail-swiper :topImgs="topImgs" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
-      <detail-goods-info :detailGoodslInfo="detailGoodslInfo" @imagesLoad="imagesLoad" />
+      <detail-goods-info :detailGoodslInfo="detailGoodslInfo" @imagesLoad="imagesLoad" />-->
       <detail-param-info :paramInfo="paramInfo" />
-      <detail-comment-info :commentInfo="commentInfo"/>
+      <detail-comment-info :commentInfo="commentInfo" />-->
       <!-- <detail-recommend-info :recommendList="recommendList"/> -->
-      <goods-list :goods="recommendList"/>
+      <!-- <keep-alive>
+        <router-view />
+      </keep-alive>-->
+      <goods-list :goods="recommendList" />
     </bscroll>
   </div>
 </template>
@@ -21,10 +24,10 @@ import DetailBaseInfo from "./childComps/DetailBaseInfo.vue";
 import DetailShopInfo from "./childComps/DetailShopInfo.vue";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue";
 import DetailParamInfo from "./childComps/DetailParamInfo.vue";
-import DetailCommentInfo from "./childComps/DetailCommentInfo.vue"
+import DetailCommentInfo from "./childComps/DetailCommentInfo.vue";
 // import DetailRecommendInfo from "./childComps/DetailRecommendInfo.vue"
-import {debounce} from "common/utils"
-import GoodsList from "components/content/goods/GoodsList.vue"
+import { debounce } from "common/utils";
+import GoodsList from "components/content/goods/GoodsList.vue";
 
 import Bscroll from "components/common/bscroll/Bscroll";
 
@@ -59,26 +62,28 @@ export default {
       detailGoodslInfo: {},
       paramInfo: {},
       commentInfo: {},
-      recommendList : []
+      recommendList: [],
+      DetailData: {}
     };
   },
   created() {
     this.iid = this.$route.query.iid;
     this.getDetailData();
   },
-  mounted () {
+  mounted() {
     // 监听goodsListItem的发送的事件总线，然后刷新content的高度
     // 防抖操作
-    const result = debounce(this.$refs.bscroll.refresh, 100)
+    const result = debounce(this.$refs.bscroll.refresh, 100);
     this.$bus.$on("detailImg", () => {
       result();
-    })
+    });
   },
   methods: {
     getDetailData() {
       // 请求详情页的所有数据，除推荐
       getDetailData(this.iid).then(res => {
         const data = res.result;
+        this.DetailData = data;
         // 1.保存轮播图的数据
         this.topImgs = res.result.itemInfo.topImages;
 
@@ -109,10 +114,10 @@ export default {
         }
       });
       // 请求推荐商品的数据
-      getRecommend().then((res)=>{
-        this.recommendList = res.data.list
+      getRecommend().then(res => {
+        this.recommendList = res.data.list;
         // console.log(this.recommendList)
-      })
+      });
     },
     imagesLoad() {
       this.$refs.bscroll.refresh();

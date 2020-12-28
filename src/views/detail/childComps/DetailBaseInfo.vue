@@ -17,21 +17,28 @@
         <span>{{goods.services[index-1].name}}</span>
       </span>
     </div>
+    
   </div>
 </template>
 
 <script>
 export default {
   name: "DetailBaseInfo",
-  props: {
-    goods: {
-      type: Object,
-      defalut(){
+  props : {
+    goods : {
+      type : Object,
+      defaule (){
         return {}
       }
     }
   },
-  created() {
+  data () {
+    return {
+      goods1 : {}
+    }
+  },
+  created () {
+    
   }
 };
 </script>
