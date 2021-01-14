@@ -1,0 +1,98 @@
+*{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: rgb(207,213,223);
+  list-style-type: none;
+}
+.nav-bar{
+  height: 44px;
+  padding: 0 5vw;
+  line-height: 44px;
+
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  font-size: 14px;
+  background-color: #333;
+}
+
+.nav-menu{
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-evenly;
+  max-width: 424px;
+
+}
+.nav-logo{
+  font-size: 14px;
+  flex-grow: 1;
+}
+.nav-logo::first-letter{
+  font-size: 1.5rem;
+}
+.nav-burger{
+  display: none;
+}
+.nav-burger div{
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: white;
+  margin-bottom: 4px;
+  transition: all 1s;
+}
+.main-content{
+  background-image: url("./src/assets/img/home/Feature_view.jpg");
+  width: 100vw;
+  background-size: cover;
+  overflow: hidden;
+}
+@media screen and (max-width: 680px){
+  .nav-menu{
+    position: absolute;
+    top: 44px;
+    right: 0;
+    height: calc( 100vh - 44px);
+    background-color: #333;
+    flex-flow: column ;
+    width: 50vw;
+    align-items: center;
+
+    justify-content: start;
+    /* 页面缩小，菜单隐藏 */
+    transition: all 1s;
+    transform: translateX(100%);
+    /* 设置渐变色 */
+    background-image: linear-gradient(to bottom, rgb(51, 51, 51), rgb(131, 126, 126));
+  }
+  .nav-menu li{
+    margin: 3vh 0;
+  }
+  /* 实现抽屉效果 */
+  .nav-menu.open{
+    transition: all 1s ;
+    transform: translateX(0);
+  }
+  .nav-burger{
+    display: block;
+    overflow: hidden;
+    padding-top: 4px;
+  }
+  /* 实现汉堡按钮的css动画 */
+  .active div{
+    transition: all 1s 0.1s;
+  }
+  .nav-burger.active .line-left{
+    transform: rotateZ(45deg) translate(2px,6px);
+  }
+  .nav-burger.active .line-right{
+    transform: rotateZ(-45deg) translate(2px, -6px);
+
+  }
+  .nav-burger.active .line-center{
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
