@@ -44,36 +44,54 @@
   transition: all 1s;
 }
 .main-content{
-  background-image: url("./src/assets/img/home/Feature_view.jpg");
-  width: 100vw;
+  background-image: url("");
+  width: 100%;
+  height: 100vh;
   background-size: cover;
   overflow: hidden;
+  background-color: #bfa;
 }
-@media screen and (max-width: 680px){
+@media screen and (max-width: 580px){
   .nav-menu{
     position: absolute;
     top: 44px;
     right: 0;
+    
     height: calc( 100vh - 44px);
+    width: 0;
     background-color: #333;
-    flex-flow: column ;
-    width: 50vw;
+    /* flex-flow: column ;
     align-items: center;
 
-    justify-content: start;
+    justify-content: start; */
     /* 页面缩小，菜单隐藏 */
-    transition: all 1s;
-    transform: translateX(100%);
+    transition: all ease-in-out 1s ;
+    /* right : -50vw; */
+    /* display: none; */
+
     /* 设置渐变色 */
     background-image: linear-gradient(to bottom, rgb(51, 51, 51), rgb(131, 126, 126));
   }
   .nav-menu li{
+    color: #dbdbdd;
     margin: 3vh 0;
+    transition: all 1s;
+    /* transform: translateX(44px); */
+    opacity: 0;
+    display: none;
   }
   /* 实现抽屉效果 */
   .nav-menu.open{
-    transition: all 1s ;
-    transform: translateX(0);
+    display: flex;
+    width: 50vw;
+    transition: all linear 1s;
+    flex-flow: column ;
+    align-items: center;
+
+    justify-content: start;
+  }
+  .nav-menu.open li{
+    display: block;
   }
   .nav-burger{
     display: block;
@@ -94,5 +112,24 @@
   .nav-burger.active .line-center{
     opacity: 0;
     transform: translateX(100%);
+  }
+
+  @keyframes menuItems {
+    from{
+      transform: translateX(44px);
+      opacity: 0;
+    }
+    to{
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes started {
+    form{
+
+    }
+    to{
+      display: none;
+    }
   }
 }
