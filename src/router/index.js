@@ -3,7 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const Home = () => import("views/home/Home.vue")
-const Cat = () => import("views/cat/Cat.vue")
+const Cat = () => import("views/cart/Cat.vue")
 const Profile = () => import("views/profile/Profile.vue")
 const Category = () => import("views/category/Category.vue")
 const Detail = () => import("views/detail/Detail.vue")
