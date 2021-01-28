@@ -11,8 +11,10 @@ export function debounce(func, dalay) {
     }, dalay);
   };
 }
+
 export function throttle(func, dalay) {
   let timer = null;
+  
   return function(...args) {
     if (!timer) {
       timer = setTimeout(() => {

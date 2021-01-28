@@ -1,12 +1,16 @@
 <template>
   <div>
-    cat
+    <shop-cart/>
   </div>
 </template>
 
 <script>
+import ShopCart from "components/content/ShopCart/ShopCart.vue"
 export default {
-  name : "Cat"
+  name : "Cat",
+  components: {
+    ShopCart,
+  }
 }
 </script>
 
