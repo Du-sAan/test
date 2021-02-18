@@ -7,11 +7,12 @@ const Cat = () => import("views/cart/Cat.vue")
 const Profile = () => import("views/profile/Profile.vue")
 const Category = () => import("views/category/Category.vue")
 const Detail = () => import("views/detail/Detail.vue")
+const DetailGoods = () => import("views/detail/childComps/DetailGoods.vue")
 const DetailParamInfo = () => import('views/detail/childComps/DetailParamInfo.vue')
-const DetailCommentInfo =  () => import('views/detail/childComps/DetailCommentInfo.vue')
-const DetailBaseInfo = () => import("views/detail/childComps/DetailBaseInfo.vue")
+const DetailCommentInfo = () => import('views/detail/childComps/DetailCommentInfo.vue')
 const DetailRecommendInfo = () => import("components/content/goods/GoodsList.vue")
-  const routes = [
+
+const routes = [
   // 默认路径
   {
     path: "",
@@ -38,28 +39,28 @@ const DetailRecommendInfo = () => import("components/content/goods/GoodsList.vue
     component: Category
   },
   {
-    path : "/detail",
-    component : Detail,
-    children : [
+    path: "/detail",
+    component: Detail,
+    children: [
       {
-        path : "",
-        redirect: "/detail/baseInfo"
+        path: "",
+        redirect: "/detail/DetailGoods"
       },
       {
-        path : "baseInfo",
-        components: DetailBaseInfo 
+        path: "DetailGoods",
+        component: DetailGoods
       },
       {
-        path : "paramInfo",
-        component : DetailParamInfo
+        path: "DetailParamInfo",
+        component: DetailParamInfo
       },
       {
-        path : "commentInfo",
-        component : DetailCommentInfo
+        path: "CommentInfo",
+        component: DetailCommentInfo
       },
       {
-        path : "recommendInfo",
-        component : DetailRecommendInfo
+        path: "RecommendInfo",
+        component: DetailRecommendInfo
       }
     ]
   }

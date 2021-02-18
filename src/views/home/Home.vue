@@ -13,8 +13,8 @@
     <Bscroll
       ref="scroll"
       :probe-type="3"
-      @contentScroll="contentScroll"
       :pullUpLoad="true"
+      @contentScroll="contentScroll"
       @pullingUp="upData">
       <HomeSwiper 
         :banners="banners" 
@@ -31,7 +31,7 @@
         ref="tabControl" 
         @tabClick="tabClick"
       />
-      <goods-list :goods="showGoods"></goods-list>
+      <goods-list :good="showGoods"></goods-list>
     </Bscroll>
     <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
   </div>

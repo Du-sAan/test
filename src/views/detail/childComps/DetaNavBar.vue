@@ -22,32 +22,27 @@ export default {
     NavBar
   },
   props: {
-    DetailData: {
-      type: Object
+    iid: {
+      type: String
     }
   },
   data() {
     return {
       titles: ["商品", "参数", "评论", "推荐"],
-      currentIndex: 0
+      currentIndex: 0,
+      id: 0
     };
+  },
+  created() {
+    this.id = this.iid;
   },
   methods: {
     spanClick(index) {
       this.currentIndex = index;
-      // if (index === 1) {
-      //   this.$router.push({
-      //     path: "/detail/paramInfo",
-      //     query: {
-      //       DetailData: this.DetailData
-      //     }
-      //   });
-      //   console.log(this.$route.query);
-      // } else if (index === 2) {
-      //   this.$router.push("/detail/commentInfo");
-      // } else if (index === 3) {
-      //   this.$router.push("/detail/recommendInfo");
-      // }
+      this.$emit("routeJump",{
+        id: this.id,
+        index : this.currentIndex
+      })
     },
     backClick() {
       this.$router.back();
