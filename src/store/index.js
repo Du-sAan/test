@@ -8,7 +8,7 @@ import getters from "./getters"
 import moduleA from "./modules/moduleA"
 
 const state = {
-  count : 1
+  GoodList : []
 }
 
 export default new Vuex.Store({

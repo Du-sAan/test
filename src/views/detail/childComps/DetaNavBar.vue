@@ -21,11 +21,6 @@ export default {
   components: {
     NavBar
   },
-  props: {
-    iid: {
-      type: String
-    }
-  },
   data() {
     return {
       titles: ["商品", "参数", "评论", "推荐"],
@@ -33,16 +28,10 @@ export default {
       id: 0
     };
   },
-  created() {
-    this.id = this.iid;
-  },
   methods: {
     spanClick(index) {
       this.currentIndex = index;
-      this.$emit("routeJump",{
-        id: this.id,
-        index : this.currentIndex
-      })
+      this.$emit("routeJump",index)
     },
     backClick() {
       this.$router.back();

@@ -1,17 +1,12 @@
 <template>
   <div id="detail">
-    <deta-nar-bar :iid="iid" @routeJump="switchRoute" />
+    <deta-nav-bar :iid="iid" @routeJump="switchRoute" />
     <!-- better-scroll
       是否实时监听
       是否触发触底事件
       滚动事件
     -->
-    <bscroll 
-      :probe-type="3"
-      :pullUpLoad="true"
-      ref="bscroll"
-      @contentScroll="contentScroll"
-    >
+    <bscroll :probe-type="3" :pullUpLoad="true" ref="bscroll" @contentScroll="contentScroll">
       <!-- 子路由 -->
       <keep-alive>
         <router-view
@@ -24,15 +19,16 @@
           :good="recommendList"
         />
       </keep-alive>
-    </bscroll >
+    </bscroll>
     <!-- 回到顶部按钮 -->
     <back-top @click.native="backTop" v-show="isShowBackTop" />
     <!-- 底部工具栏 -->
+    <detail-bottom-bar @addGood="addGood" />
   </div>
 </template>
 
 <script>
-import DetaNarBar from "./childComps/DetaNavBar.vue";
+import DetaNavBar from "./childComps/DetaNavBar.vue";
 import { debounce } from "common/utils";
 import Bscroll from "components/common/bscroll/Bscroll";
 import DetailGoods from "./childComps/DetailGoods.vue";
@@ -45,13 +41,15 @@ import {
   getRecommend
 } from "network/detail_request.js";
 import BackTop from "components/content/BackTop/BackTop.vue";
+import DetailBottomBar from "./childComps/DetailBottomBar.vue";
 export default {
   name: "Detail",
   components: {
-    DetaNarBar,
+    DetaNavBar,
     Bscroll,
     DetailGoods,
-    BackTop
+    BackTop,
+    DetailBottomBar
   },
   data() {
     return {
@@ -132,8 +130,9 @@ export default {
     imagesLoad() {
       this.$refs.bscroll.refresh();
     },
-    switchRoute(params) {
-      switch (params.index) {
+    // 根据detail-navbar的点击切换不同的子路由
+    switchRoute(index) {
+      switch (index) {
         case 0:
           {
             this.$router.push({
@@ -171,7 +170,19 @@ export default {
     // 设置滚动事件，判断是否显示回到顶部按钮
     contentScroll(position) {
       this.isShowBackTop = position.y < -350 ? true : false;
+    },
+    addGood() {
+      // 1.创建对象
+      const obj = {};
+      // 2.添加商品描述信息
+      obj.iid = this.iid;
+      obj.imgURL = this.topImgs[0];
+      obj.title = this.goods.title;
+      obj.desc = this.goods.desc;
+      obj.newPrice = this.goods.newPrice;
       
+      // 3.添加到状态管理中
+      this.$store.dispatch("addGood", obj);
     }
   }
 };
@@ -187,6 +198,8 @@ export default {
 }
 .nav-bar {
   position: static;
+  top: 0;
+  left: 0;
   position: relative;
   z-index: 10;
   background-color: white;
