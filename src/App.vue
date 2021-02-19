@@ -16,7 +16,7 @@ export default {
   },
   data () {
     return {
-      blackList : ['Detail']
+      blackList : []
     }
   }
 } 

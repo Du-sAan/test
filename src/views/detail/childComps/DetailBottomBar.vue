@@ -25,30 +25,29 @@
 <script>
 export default {
   name: "DetailBottomBar",
-  data () {
+  data() {
     return {
-      isCollection : false  
-    }
+      isCollection: false
+    };
   },
   methods: {
     addGood() {
       // 发送商品加入购物车的事件
-      alert("已加入购物车");
       this.$emit("addGood");
     },
     buy() {
       let passwd = prompt("请输入支付密码");
       // 添加判断条件
-      if(passwd){
+      if (passwd) {
         // 发送购买商品的事件
-      this.$emit("buyGood",passwd);
-      alert("购买完成,您可以在我的订单中查看该订单")
+        this.$emit("buyGood", passwd);
+        alert("购买完成,您可以在我的订单中查看该订单");
       }
     },
     collection() {
-      if(!this.isCollection)alert("已收藏")
-      this.isCollection = !this.isCollection
-      if(!this.isCollection) alert("已取消收藏")
+      if (!this.isCollection) alert("已收藏");
+      this.isCollection = !this.isCollection;
+      if (!this.isCollection) alert("已取消收藏");
     }
   }
 };
@@ -110,7 +109,7 @@ export default {
 .bar-right .buy {
   background-color: #f69;
 }
-.isActive{
+.isActive {
   background-color: red;
 }
 </style>

@@ -6,7 +6,12 @@
       是否触发触底事件
       滚动事件
     -->
-    <bscroll :probe-type="3" :pullUpLoad="true" ref="bscroll" @contentScroll="contentScroll">
+    <bscroll 
+      :probe-type="3" 
+      :pullUpLoad="true" 
+      ref="bscroll" 
+      @contentScroll="contentScroll"
+    >
       <!-- 子路由 -->
       <keep-alive>
         <router-view
@@ -24,6 +29,11 @@
     <back-top @click.native="backTop" v-show="isShowBackTop" />
     <!-- 底部工具栏 -->
     <detail-bottom-bar @addGood="addGood" />
+    <!-- 提示框 -->
+    <div class="toast" v-show="show">
+      {{message}}
+    </div>
+    
   </div>
 </template>
 
@@ -49,10 +59,12 @@ export default {
     Bscroll,
     DetailGoods,
     BackTop,
-    DetailBottomBar
+    DetailBottomBar,
   },
   data() {
     return {
+      show: false,
+      message: "",
       iid: "",
       topImgs: [],
       goods: {},
@@ -62,7 +74,7 @@ export default {
       commentInfo: {},
       recommendList: [],
       DetailData: {},
-      isShowBackTop: false
+      isShowBackTop: false,
     };
   },
   created() {
@@ -173,16 +185,24 @@ export default {
     },
     addGood() {
       // 1.创建对象
-      const obj = {};
+      const product = {};
       // 2.添加商品描述信息
-      obj.iid = this.iid;
-      obj.imgURL = this.topImgs[0];
-      obj.title = this.goods.title;
-      obj.desc = this.goods.desc;
-      obj.newPrice = this.goods.newPrice;
-      
-      // 3.添加到状态管理中
-      this.$store.dispatch("addGood", obj);
+      product.iid = this.iid;
+      product.imgURL = this.topImgs[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.newPrice = this.goods.newPrice;
+
+      // 3.添加到状态管理中,拿到返回的Promise
+      let p = this.$store.dispatch("addGood", product)
+      p.then(res => {
+        this.show = true;
+        this.message = res;
+      })
+      setTimeout(() => {
+        this.show = false;
+        this.message = "";
+      }, 2000);
     }
   }
 };
@@ -207,4 +227,19 @@ export default {
 .wrapper {
   height: calc(100% - 93px);
 }
+.toast {
+  padding: 20px;
+  font-weight: 600 ;
+  color : rgb(3, 3, 3);
+
+  transition: all 1s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(189, 126, 81);
+  opacity: 0.7;
+  box-shadow: 0 0 4px red;
+}
+
 </style>
