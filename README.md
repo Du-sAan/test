@@ -1,4 +1,4 @@
-# mall 本项目是模拟实现coderwhy的项目
+# mall Vue组件化开发以及封装思想
 ## Project setup
 ```
 npm install
