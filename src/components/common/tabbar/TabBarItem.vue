@@ -1,6 +1,8 @@
 <template>
     <!-- :class="{active:isActive}" -->
-    <div class="tab-bar-item" @click="itemClick" :style="avtiveStyle">
+    <div class="tab-bar-item" 
+      @click="itemClick" 
+      :style="avtiveStyle">
       <div ><slot name="item-font" ></slot></div>
       <div ><slot name="item-text"></slot></div>
     </div>

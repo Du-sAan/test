@@ -7,6 +7,7 @@ const Cart = () => import("views/cart/Cart.vue")
 const Profile = () => import("views/profile/Profile.vue")
 const Category = () => import("views/category/Category.vue")
 const Detail = () => import("views/detail/Detail.vue")
+const Settlement = () => import("views/settlement/Settlement.vue")
 const DetailGoods = () => import("views/detail/childComps/DetailGoods.vue")
 const DetailParamInfo = () => import('views/detail/childComps/DetailParamInfo.vue')
 const DetailCommentInfo = () => import('views/detail/childComps/DetailCommentInfo.vue')
@@ -25,7 +26,7 @@ const routes = [
   },
   // cart
   {
-    path: '/cat',
+    path: '/cart',
     component: Cart
   },
   // profile
@@ -38,13 +39,14 @@ const routes = [
     path: '/category',
     component: Category
   },
+  // detail
   {
     path: "/detail",
     component: Detail,
     children: [
       {
         path: "",
-        redirect: "/detail/DetailGoods"
+        redirect: "/detail/DetailGoods/"
       },
       {
         path: "DetailGoods",
@@ -63,8 +65,11 @@ const routes = [
         component: DetailRecommendInfo
       }
     ]
+  },
+  {
+    path : "/settlement",
+    component: Settlement,
   }
-
 ]
 
 const router = new Router({

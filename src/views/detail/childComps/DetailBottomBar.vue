@@ -36,18 +36,13 @@ export default {
       this.$emit("addGood");
     },
     buy() {
-      let passwd = prompt("请输入支付密码");
-      // 添加判断条件
-      if (passwd) {
-        // 发送购买商品的事件
-        this.$emit("buyGood", passwd);
-        alert("购买完成,您可以在我的订单中查看该订单");
-      }
+      // 直接跳转到购买界面
+      this.$emit("buyGood")
     },
     collection() {
-      if (!this.isCollection) alert("已收藏");
+      // 收藏按钮
       this.isCollection = !this.isCollection;
-      if (!this.isCollection) alert("已取消收藏");
+      this.$emit("collection")
     }
   }
 };

@@ -10,8 +10,8 @@
       :probe-type="3" 
       :pullUpLoad="true" 
       ref="bscroll" 
-      @contentScroll="contentScroll"
-    >
+      @contentScroll="contentScroll
+    ">
       <!-- 子路由 -->
       <keep-alive>
         <router-view
@@ -26,14 +26,22 @@
       </keep-alive>
     </bscroll>
     <!-- 回到顶部按钮 -->
-    <back-top @click.native="backTop" v-show="isShowBackTop" />
+    <back-top 
+      @click.native="backTop" 
+      v-show="isShowBackTop" 
+    />
     <!-- 底部工具栏 -->
-    <detail-bottom-bar @addGood="addGood" />
+    <detail-bottom-bar 
+      @addGood="addGood" 
+      @collection="collection"
+      @buyGood="buyGood" 
+      ref="bottomBar" 
+    />
     <!-- 提示框 -->
-    <div class="toast" v-show="show">
-      {{message}}
-    </div>
-    
+    <toast 
+      :show="show" 
+      :message="message" 
+    />
   </div>
 </template>
 
@@ -52,6 +60,7 @@ import {
 } from "network/detail_request.js";
 import BackTop from "components/content/BackTop/BackTop.vue";
 import DetailBottomBar from "./childComps/DetailBottomBar.vue";
+import Toast from "components/common/toast/Toast.vue";
 export default {
   name: "Detail",
   components: {
@@ -60,6 +69,7 @@ export default {
     DetailGoods,
     BackTop,
     DetailBottomBar,
+    Toast
   },
   data() {
     return {
@@ -74,7 +84,7 @@ export default {
       commentInfo: {},
       recommendList: [],
       DetailData: {},
-      isShowBackTop: false,
+      isShowBackTop: false
     };
   },
   created() {
@@ -82,6 +92,15 @@ export default {
     this.iid = this.$route.query.iid;
     this.getDetailData();
   },
+  activated () {
+    // 判断本地存储，是否收藏商品，若有，则收藏键为空
+    if(localStorage.getItem(`${this.iid}`)){
+      this.$refs.bottomBar.isCollection = true
+    }else{
+      this.$refs.bottomBar.isCollection = false
+    }
+  }
+  ,
   mounted() {
     // 监听goodsListItem的发送的事件总线，然后刷新content的高度
     // 防抖操作
@@ -184,6 +203,7 @@ export default {
       this.isShowBackTop = position.y < -350 ? true : false;
     },
     addGood() {
+      // 将整个商品的参数传递过去
       // 1.创建对象
       const product = {};
       // 2.添加商品描述信息
@@ -194,15 +214,50 @@ export default {
       product.newPrice = this.goods.newPrice;
 
       // 3.添加到状态管理中,拿到返回的Promise
-      let p = this.$store.dispatch("addGood", product)
+      let p = this.$store.dispatch("addGood", product);
       p.then(res => {
         this.show = true;
         this.message = res;
-      })
+      });
       setTimeout(() => {
         this.show = false;
         this.message = "";
-      }, 2000);
+      }, 1000);
+    },
+    // 收藏按钮
+    collection() {
+      window.localStorage.setItem(`${this.iid}`,`${this.iid}`)
+      if (this.$refs.bottomBar.isCollection) {
+        // 加入本地存储
+        this.show = true;
+        this.message = "收藏成功";
+
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+      } else {
+        this.show = true;
+        this.message = "取消收藏";
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+      }
+    },
+    buyGood(){
+      // 购买商品，将商品信息穿给状态管理，然后跳转页面
+      const product = {};
+      // 2.添加商品描述信息
+      product.iid = this.iid;
+      product.imgURL = this.topImgs[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.newPrice = this.goods.newPrice;
+      // 3.添加到状态管理中,拿到返回的Promise
+      let p = this.$store.dispatch("addGood", product);
+      
+      this.$router.push("/cart")
     }
   }
 };
@@ -227,19 +282,4 @@ export default {
 .wrapper {
   height: calc(100% - 93px);
 }
-.toast {
-  padding: 20px;
-  font-weight: 600 ;
-  color : rgb(3, 3, 3);
-
-  transition: all 1s;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgb(189, 126, 81);
-  opacity: 0.7;
-  box-shadow: 0 0 4px red;
-}
-
 </style>

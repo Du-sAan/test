@@ -3,7 +3,8 @@
     <CheckButton class="select-all" @checkBtnClick="checkBtnClick" v-model="isSelectAll"></CheckButton>
     <span>全选</span>
     <span class="total-price">合计: ¥{{totalPrice}}</span>
-    <span class="buy-product">去计算({{$store.state.GoodList.length}})</span>
+    <span @click="clear">清空购物车</span>
+    <span class="buy-product" @click="settlement">去计算({{$store.state.GoodList.length}})</span>
   </div>
 </template>
 
@@ -39,7 +40,7 @@ export default {
     }
   },
   methods: {
-    checkBtnClick: function() {
+    checkBtnClick() {
       // 1.判断是否有未选中的按钮
       let isSelectAll = this.$store.state.GoodList.find(item => !item.checked);
 
@@ -53,6 +54,12 @@ export default {
           item.checked = false;
         });
       }
+    },
+    clear(){
+      this.$store.commit("clearGoodList")
+    },
+    settlement(){
+      this.$router.push("/settlement")
     }
   }
 };
@@ -82,8 +89,8 @@ export default {
 }
 
 .bottom-menu .total-price {
-  margin-left: 15px;
-  font-size: 16px;
+  margin-left: 1rem;
+  font-size: 1rem;
   color: #666;
 }
 
@@ -96,4 +103,11 @@ export default {
   line-height: 44px;
   float: right;
 }
+.bottom-menu span:nth-of-type(3){
+  margin-left: 1rem;
+  text-align: center;
+  line-height: 44px;
+  color: rgb(245, 106, 26);
+}
+
 </style>

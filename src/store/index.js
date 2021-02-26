@@ -8,7 +8,8 @@ import getters from "./getters"
 import moduleA from "./modules/moduleA"
 
 const state = {
-  GoodList : []
+  GoodList : [],
+  settlement : []
 }
 
 export default new Vuex.Store({

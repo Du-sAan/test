@@ -9,7 +9,7 @@
         <p class="fa" slot="item-font">&#xf009;</p>
         <p slot="item-text">分类</p>
       </tab-bar-item>
-      <tab-bar-item path="/cat" activeColor="rgb(223, 185, 17)">
+      <tab-bar-item path="/cart" activeColor="rgb(223, 185, 17)">
         <p class="fa" slot="item-font">&#xf07a;</p>
         <p slot="item-text">购物车</p>
       </tab-bar-item>

@@ -18,6 +18,9 @@ export default {
     return {
       blackList : []
     }
+  },
+  destroyed () {
+    
   }
 } 
 </script>
