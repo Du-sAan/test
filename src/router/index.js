@@ -7,6 +7,8 @@ const Cart = () => import("views/cart/Cart.vue")
 const Profile = () => import("views/profile/Profile.vue")
 const Category = () => import("views/category/Category.vue")
 const Detail = () => import("views/detail/Detail.vue")
+const SignIn = () => import("views/signIn/SignIn.vue")
+const Register = () => import("views/signIn/Register.vue")
 const Settlement = () => import("views/settlement/Settlement.vue")
 const DetailGoods = () => import("views/detail/childComps/DetailGoods.vue")
 const DetailParamInfo = () => import('views/detail/childComps/DetailParamInfo.vue')
@@ -69,6 +71,19 @@ const routes = [
   {
     path : "/settlement",
     component: Settlement,
+  },
+  // 登录和注册路由
+  {
+    path : "/signIn",
+    component : SignIn
+  },
+  {
+    path : "/register",
+    component : Register
+  },
+  {
+    path : "*",
+    component : Home
   }
 ]
 

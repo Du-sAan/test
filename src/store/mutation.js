@@ -6,7 +6,6 @@ export default {
         item.count++
       }
     })
-    console.log(state.GoodList)
   },
   addGood(state, params) {
     // 增加新的商品

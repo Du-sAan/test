@@ -6,7 +6,7 @@
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
         </svg>
       </slot>
-      <div class="login-info left">
+      <div class="login-info left" @click="signIn">
         <slot name="user-nickname">
           <div>登录/注册</div>
         </slot>
@@ -24,7 +24,13 @@
 
 <script>
 	export default {
-		name: "UserInfo"
+		name: "UserInfo",
+    methods: {
+      signIn(){
+        console.log(1)
+        this.$router.push("/signIn")
+      }
+    }
 	}
 </script>
 
@@ -53,10 +59,10 @@
   }
 
   #user-info .login-info {
-    color: #fff;
+    color: rgb(3, 3, 3);
     margin: 10px 0 0 10px;
   }
-
+  
   #user-info .login-info .phone {
     position: relative;
 

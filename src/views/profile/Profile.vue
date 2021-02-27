@@ -1,6 +1,6 @@
 <template>
   <div id="profile">
-    <nav-bar class="nav-bar"><div slot="center">Mine</div></nav-bar>
+    <nav-bar class="nav-bar"><div slot="center">个人中心</div></nav-bar>
     <!--1.单独封装一个组件: 利用slot知识点-->
     <UserInfo></UserInfo>
 
@@ -69,7 +69,7 @@
   .nav-bar {
     background-color: var(--color-tint);
     font-weight: 700;
-    color: #fff;
+    color: rgb(238, 16, 16);
   }
 
   .account {

@@ -92,15 +92,14 @@ export default {
     this.iid = this.$route.query.iid;
     this.getDetailData();
   },
-  activated () {
-    // 判断本地存储，是否收藏商品，若有，则收藏键为空
-    if(localStorage.getItem(`${this.iid}`)){
-      this.$refs.bottomBar.isCollection = true
-    }else{
-      this.$refs.bottomBar.isCollection = false
-    }
-  }
-  ,
+  // activated () {
+  //   // 判断本地存储，是否收藏商品，若有，则收藏键为空
+  //   if(localStorage.getItem(`${this.iid}`)){
+  //     this.$refs.bottomBar.isCollection = true
+  //   }else{
+  //     this.$refs.bottomBar.isCollection = false
+  //   }
+  // },
   mounted() {
     // 监听goodsListItem的发送的事件总线，然后刷新content的高度
     // 防抖操作
@@ -226,7 +225,7 @@ export default {
     },
     // 收藏按钮
     collection() {
-      window.localStorage.setItem(`${this.iid}`,`${this.iid}`)
+      // window.localStorage.setItem(`${this.iid}`,`${this.iid}`)
       if (this.$refs.bottomBar.isCollection) {
         // 加入本地存储
         this.show = true;

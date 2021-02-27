@@ -1,5 +1,6 @@
 /* <!-- 清除默认样式 --> */
 @import "./normalize.css";
+@import "../font-awesome-4.7.0/css/font-awesome.css"
 
 /*:root -> 获取根元素html*/
 :root {
