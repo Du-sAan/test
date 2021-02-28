@@ -33,6 +33,7 @@ export default {
     /* 设置nav-bar的样式 */
     /* background-color: #f6f6f6; */
     box-shadow: 0 2px 2px rgba(100, 100, 100, 0.2);
+    background-color: white;
   }
   .nav-bar .left,.right{
     /* 给left,right一个默认的宽度 */

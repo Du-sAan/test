@@ -185,7 +185,8 @@ export default {
 .home-nav {
   /* 在父组件home中给以子组件nar-bar样式 */
   background-color: var(--color-tint);
-  color: white;
+  /* background-color: white; */
+  color: rgb(255, 255, 255);
 }
 .tab-control-top{
   position: absolute;

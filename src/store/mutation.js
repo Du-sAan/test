@@ -16,5 +16,12 @@ export default {
   },
   clearGoodList(state){
     state.GoodList = [];
+  },
+  login(state,params){
+    // 改变用户登录状态
+    state.loginStatus = params.status;
+    state.username = params.username
+    // 将用户信息存入状态管理
+    state.userInfo.push(params.info)
   }
 }

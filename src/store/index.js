@@ -9,7 +9,12 @@ import moduleA from "./modules/moduleA"
 
 const state = {
   GoodList : [],
-  settlement : []
+  settlement : [],
+  // 登录状态
+  loginStatus : false,
+  username : "",
+  // 如用户有多个账户
+  userInfo : []
 }
 
 export default new Vuex.Store({

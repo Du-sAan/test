@@ -3,10 +3,10 @@
     <form class="login-form">
       <h2>注 册 界 面</h2>
       <input type="text" name="username" v-model="username" placeholder="用户名"/>
-      <input type="password" name="password" v-model="padsswd" placeholder="密码" />
+      <input type="password" name="password" v-model="passwd" placeholder="密码" />
       <input type="text" name="phone" v-model="phone" placeholder="手机">
-      <button @click="register">注册</button>
-      
+      <input type="text" name="email" v-model="email" placeholder="邮箱">
+      <button type="button" @click="register">注册</button>
     </form>
   </div>
 </template>
@@ -19,15 +19,45 @@ export default {
       username: "",
       passwd : "",
       phone : "",
-      // 简单的手机/用户名正则测试,用户名必须是非空字符
-      usernameRge: /.+/,
-      phoneReg : /^1\d{10}/,
+      email : "",
+      // 简单的手机/用户名/邮箱正则测试,用户名必须是非空字符
+      usernameReg: /.+/, //至少一个字符
+      passwdReg : /.{3,16}/, //3-16位字符
+      phoneReg : /^1\d{10}/, //以1开头的11位数组
+      emailReg : /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/, //网上抄的
     }
   },
   methods: {
-    // 用sessionStorage模拟登录
+    // 用sessionStorage模拟注册
     register(){
-
+      const userInfo = {}
+      userInfo.username = this.username 
+      userInfo.passwd = this.passwd
+      userInfo.phone = this.phone
+      userInfo.email = this.phone
+      if(!this.usernameReg.test(this.username)) {
+        alert("用户名格式不正确")
+        return
+      }
+      if(!this.passwdReg.test(this.passwd)){
+        alert("密码格式不正确") 
+        return
+      }
+      if(!this.phoneReg.test(this.phone)){
+        alert("手机格式不正确") 
+        return
+      }
+      if(!this.emailReg.test(this.email)){
+        alert("邮件格式不正确")
+        return
+      }
+      if(sessionStorage.getItem(this.phone)){
+        alert("该手机已被注册")
+        return
+      }
+      sessionStorage.setItem(this.phone,JSON.stringify(userInfo))
+      alert("注册成功")
+      this.$router.push("/signin")
     }
   }
 };
@@ -36,9 +66,10 @@ export default {
 <style>
 .container {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 49px);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center; */
   justify-content: center;
   background: linear-gradient(
     135deg,
@@ -52,18 +83,24 @@ export default {
 
   animation: background-move 5s infinite alternate;
 }
-
 .login-form {
-  width: 240px;
-  height: 220px;
+  align-self: center;
+  /* width: 100vw;
+  height: 100vh; */
+  width: 100vw;
+  min-width: 320px;
+  /* height: 240px; */
+  height: 100%;
+  align-self: flex-end;
+
   display: flex;
   flex-direction: column;
-  padding: 8px 40px;
+  padding: 0 40px;
+  padding-top: 20vh;
   text-align: center;
   position: relative;
   z-index: 100;
   background: inherit;
-  border-radius: 18px;
   overflow: hidden; /* 隐藏多余的模糊效果 */
 }
 
@@ -82,21 +119,27 @@ export default {
 }
 
 .login-form h2 {
-  margin: 4px 0 ;
   font-size: 1rem;
   font-weight: 400;
   color: #3d5245;
+  cursor: pointer;
 }
 
 .login-form input,
 .login-form button {
-  margin: 6px 0;
+  margin: 12px 2px;
   height: 36px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  background-color: inherit;
   padding: 0 14px;
   color: #3d5245;
+}
+/* .login-form button {
+  border-radius: 18px;
+} */
+.login-form input {
+  border-bottom: 1px solid #333;
 }
 
 .login-form input::placeholder {
@@ -111,6 +154,9 @@ export default {
 }
 
 .login-form button {
+  border-radius: 18px;
+  width: 40vw;
+  align-self: center;
   margin: 14px 0;
   background-color: rgba(57, 88, 69, 0.4);
   color: white;
@@ -164,4 +210,5 @@ export default {
   transform: translateX(320px);
   opacity: 1;
 }
+
 </style>

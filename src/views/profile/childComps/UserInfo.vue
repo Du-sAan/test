@@ -1,12 +1,13 @@
 <template>
   <div id="user-info">
-    <a href="#" class="clear-fix">
+    <a href="javascript:;" class="clear-fix">
       <slot name="user-icon">
-        <svg class="privateImage-svg left">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
-        </svg>
+        <div class="privateImage left">
+          <!-- <img src="~assets/img/profile/avatar.jpeg" alt="头像"> -->
+        </div>
       </slot>
-      <div class="login-info left" @click="signIn">
+      <div class="login-info left" @click="signIn" v-show="!$store.state.loginStatus">
+        hi {{$store.state.loginStatus}}
         <slot name="user-nickname">
           <div>登录/注册</div>
         </slot>
@@ -17,7 +18,15 @@
           <slot name="user-phone">暂无绑定手机号</slot>
         </div>
       </div>
-      <svg data-v-735ff1be="" fill="#fff" class="arrow-svg right"><use data-v-735ff1be="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use></svg>
+      <div class="login-info left" v-show="$store.state.loginStatus">
+        <span class="username">
+            {{data.username}}
+        </span> 
+        <i>※</i>
+      </div>
+      <div class="log-out">
+        退出登录
+      </div>
     </a>
   </div>
 </template>
@@ -25,9 +34,15 @@
 <script>
 	export default {
 		name: "UserInfo",
+    data () {
+      return {
+        showInfo : this.$store.state.loginStatus,
+        data : this.$store.state.userInfo[0],
+        username : "username"
+      }
+    },
     methods: {
       signIn(){
-        console.log(1)
         this.$router.push("/signIn")
       }
     }
@@ -39,15 +54,19 @@
     background-color: var(--color-tint);
     padding: 15px;
     margin-top: -5px;
+    position: relative;
   }
 
-  #user-info .privateImage-svg {
+  #user-info .privateImage {
     width: 60px;
     height: 60px;
     background-color: #fff;
     border-radius: 30px;
   }
-
+  .privateImage{
+    background: url("~assets/img/profile/avatar.jpeg");
+    background-size: cover;
+  }
   .left {
     float: left;
   }
@@ -78,5 +97,17 @@
     height: 18px;
     left: -15px;
     top: 0px;
+  }
+  .log-out{
+    position: absolute;
+    bottom: 50%;
+    right: 0;
+    text-align: center;
+  }
+  .username{
+    color : #333;
+    font-size: 1.5rem;
+    margin-left: 20px;
+    font-weight: 600;
   }
 </style>

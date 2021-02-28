@@ -29,5 +29,7 @@ export default {
   background: rgb(189, 126, 81);
   opacity: 0.7;
   box-shadow: 0 0 4px red;
+
+  z-index: 9;
 }
 </style>
