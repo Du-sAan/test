@@ -23,5 +23,11 @@ export default {
     state.username = params.username
     // 将用户信息存入状态管理
     state.userInfo.push(params.info)
+  },
+  loginOut(state){
+    state.loginStatus = false;
+    state.username = ""
+    // 将用户信息存入状态管理
+    state.userInfo = []
   }
 }

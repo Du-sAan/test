@@ -24,7 +24,7 @@
         </span> 
         <i>※</i>
       </div>
-      <div class="log-out">
+      <div class="log-out" @click="loginOut">
         退出登录
       </div>
     </a>
@@ -44,6 +44,10 @@
     methods: {
       signIn(){
         this.$router.push("/signIn")
+      },
+      loginOut(){
+        // 退出登录
+        this.$store.commit("loginOut")
       }
     }
 	}
