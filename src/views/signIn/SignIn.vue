@@ -102,6 +102,7 @@ export default {
           }, 1000);
         }
       }
+      // 如果登录方式为验证码
       if (this.method === "code") {
         if (this.code !== String(this.checkCode) || this.code === "") {
           this.show = true;
