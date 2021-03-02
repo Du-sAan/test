@@ -7,7 +7,6 @@
         </div>
       </slot>
       <div class="login-info left" @click="signIn" v-show="!$store.state.loginStatus">
-        hi {{$store.state.loginStatus}}
         <slot name="user-nickname">
           <div>登录/注册</div>
         </slot>
@@ -20,7 +19,7 @@
       </div>
       <div class="login-info left" v-show="$store.state.loginStatus">
         <span class="username">
-            {{data.username}}
+            {{username}}
         </span> 
         <i>※</i>
       </div>
@@ -38,7 +37,7 @@
       return {
         showInfo : this.$store.state.loginStatus,
         data : this.$store.state.userInfo[0],
-        username : "username"
+        username : "你好"
       }
     },
     methods: {

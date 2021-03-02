@@ -38,6 +38,8 @@
 
 <script>
 import Toast from "components/common/toast/Toast.vue";
+// 导入mock/网络请求模块
+import { getCode} from "network/profile_request.js"
 export default {
   name: "SignIn",
   components: {
@@ -135,9 +137,11 @@ export default {
         }
       }
     },
+    // 去注册
     goRegister() {
       this.$router.push("/register");
     },
+    // 其它登录方式
     link() {
       this.show = true;
       this.message = "工程师正在努力实现中~";
@@ -146,8 +150,16 @@ export default {
         this.message = "";
       }, 1000);
     },
+    // 产生随机验证码
     getCode() {
       // 用随机数来充当验证码
+      const p  =getCode();
+      p.then( res => {
+        console.log("成功",res)
+      })
+      p.catch( rec => {
+        console.log("错误",rec)
+      })
       this.checkCode = parseInt(Math.random() * 1000000);
       this.show = true;
       this.message = `您的验证码为 ${this.checkCode} \t有效期为下一次验证码前`;
@@ -372,7 +384,9 @@ export default {
 }
 .sign-by-code button {
   position: absolute;
-  right: 2rem;
+  right: 1rem;
+  font-size: 16px;
+  width: 4rem;
   bottom: 0;
   padding: 0;
   /* width: 60px; */
