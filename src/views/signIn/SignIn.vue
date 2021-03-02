@@ -153,20 +153,21 @@ export default {
     // 产生随机验证码
     getCode() {
       // 用随机数来充当验证码
-      const p  =getCode();
-      p.then( res => {
-        console.log("成功",res)
+      const p  = getCode( )
+      let p2 = p.then( res => {
+        console.log(res)
+        this.checkCode = res.checkCode
+      },rec => {
+        this.checkCode = "获取验证码失败"+rec
       })
-      p.catch( rec => {
-        console.log("错误",rec)
-      })
-      this.checkCode = parseInt(Math.random() * 1000000);
-      this.show = true;
-      this.message = `您的验证码为 ${this.checkCode} \t有效期为下一次验证码前`;
-      setTimeout(() => {
+      p2.then(res => {
+        this.show = true;
+        this.message = `您的验证码为 ${this.checkCode} \t有效期为下一次验证码前`;
+        setTimeout(() => {
         this.show = false;
         this.message = "";
       }, 10000);
+      })
     },
     methodWd() {
       this.method = "passwd";
