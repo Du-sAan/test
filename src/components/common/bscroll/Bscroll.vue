@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { debounce} from "common/utils.js";
 import BScroll from "better-scroll";
 export default {
   name: "Bscroll",
@@ -32,11 +33,18 @@ export default {
       probeType: this.probeType,
       pullUpLoad: this.pullUpLoad
     });
+    // 是否需要实时监听滚动
     if (this.probeType === 2 || this.probeType === 3) {
+      // 发送滚动事件
       this.bs.on("scroll", position => {
         this.$emit("contentScroll", position);
       });
+      // 发送上拉刷新事件
+      this.bs.on("touchEnd", position => {
+        this.$emit("refresh", position);
+      })
     }
+    // 是否需要触底监听
     if (this.pullUpLoad) {
       this.bs.on("pullingUp", () => {
         this.$emit("pullingUp");
@@ -48,6 +56,7 @@ export default {
     scrollTo(x, y, time) {
       this.bs && this.bs.scrollTo(x, y, time);
     },
+    // 刷新触底事件
     finishPullUp() {
       this.bs && this.bs.finishPullUp();
     },

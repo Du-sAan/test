@@ -13,21 +13,17 @@ const userInfo = Mock.mock({
       idCard: "@id(18)",
       // true加上会有省份
       address: "@city(true)",
-      birthday: '@date(yyyy-MM-dd)'
+      birthday: '@date(yyyy-MM-dd) hh:dd:ss'
     }
   ]
 })
-console.log(userInfo)
-// Mock.mock('/profile/sign/getCode', "get", (options) => {
-//   // 生成随机数验证码
-//   console.log(options)
-//   let code = parseInt(Math.random() * 1000000)
-//   return {
-//     code: `${code}`
-//   }
-// })
+
+let ran = Mock.mock({
+  'number|8' : '@number'
+})
 Mock.mock(BASE_URL + '/profile/sign/getCode', 'get', (options) => {
   return {
     checkCode: `${parseInt(Math.random() * 1000000)}`
   }
 })
+console.log(userInfo)

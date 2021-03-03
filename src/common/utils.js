@@ -1,5 +1,5 @@
 // 防抖和节流函数
-export function debounce(func, dalay) {
+export function debounce(func, dalay=200) {
   let timer = null;
 
   return function(...args) {
