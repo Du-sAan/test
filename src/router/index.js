@@ -25,26 +25,42 @@ const routes = [
   {
     path: "/home",
     component: Home,
+    meta : {
+      title : "主页"
+    }
+    
   },
   // cart
   {
     path: '/cart',
-    component: Cart
+    component: Cart,
+    meta : {
+      title : "购物车"
+    }
   },
   // profile
   {
     path: '/profile',
-    component: Profile
+    component: Profile,
+    meta : {
+      title : "个人信息"
+    }
   },
   // category
   {
     path: '/category',
-    component: Category
+    component: Category,
+    meta : {
+      title : "更多商品"
+    }
   },
   // detail
   {
     path: "/detail",
     component: Detail,
+    meta : {
+      title : "商品详情页" 
+    },
     children: [
       {
         path: "",
@@ -52,38 +68,62 @@ const routes = [
       },
       {
         path: "DetailGoods",
-        component: DetailGoods
+        component: DetailGoods,
+        meta : {
+          title : "店铺信息"
+        }
       },
       {
         path: "DetailParamInfo",
-        component: DetailParamInfo
+        component: DetailParamInfo,
+        meta : {
+          title : "参数详情"
+        }
       },
       {
         path: "CommentInfo",
-        component: DetailCommentInfo
+        component: DetailCommentInfo,
+        meta : {
+          title : "商品评论"
+        }
       },
       {
         path: "RecommendInfo",
-        component: DetailRecommendInfo
+        component: DetailRecommendInfo,
+        meta : {
+          title : "推荐列表"
+        }
       }
     ]
   },
   {
-    path : "/settlement",
+    path: "/settlement",
     component: Settlement,
+    meta : {
+      title : "收藏"
+    }
   },
   // 登录和注册路由
   {
-    path : "/signIn",
-    component : SignIn
+    path: "/signIn",
+    component: SignIn,
+    meta : {
+      title : "登录"
+    }
   },
   {
-    path : "/register",
-    component : Register
+    path: "/register",
+    component: Register,
+    meta :{
+      title : "注册"
+    }
   },
   {
-    path : "*",
-    component : Home
+    path: "*",
+    component: Home,
+    meta : {
+      title : "主页"
+    }
   }
 ]
 
@@ -98,4 +138,15 @@ const RouterPush = Router.prototype.push
 Router.prototype.push = function push(to) {
   return RouterPush.call(this, to).catch(err => err)
 }
+router.beforeEach((to, from, next) => {
+  // 从from -> to
+  document.title = to.matched[0].meta.title
+  // 需要验证权限的一些路由
+  let auth = ['/user/username', '/user/password', '/user/birthday'];
+  if (auth.includes(to.fullPath)) {
+    // 做验证操作,如果携带token，则通行
+    console.log("验证token");
+  }
+  next();
+})
 export default router
