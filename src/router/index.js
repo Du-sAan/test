@@ -25,41 +25,41 @@ const routes = [
   {
     path: "/home",
     component: Home,
-    meta : {
-      title : "主页"
+    meta: {
+      title: "主页"
     }
-    
+
   },
   // cart
   {
     path: '/cart',
     component: Cart,
-    meta : {
-      title : "购物车"
+    meta: {
+      title: "购物车"
     }
   },
   // profile
   {
     path: '/profile',
     component: Profile,
-    meta : {
-      title : "个人信息"
+    meta: {
+      title: "个人信息"
     }
   },
   // category
   {
     path: '/category',
     component: Category,
-    meta : {
-      title : "更多商品"
+    meta: {
+      title: "更多商品"
     }
   },
   // detail
   {
     path: "/detail",
     component: Detail,
-    meta : {
-      title : "商品详情页" 
+    meta: {
+      title: "商品详情页"
     },
     children: [
       {
@@ -69,29 +69,29 @@ const routes = [
       {
         path: "DetailGoods",
         component: DetailGoods,
-        meta : {
-          title : "店铺信息"
+        meta: {
+          title: "店铺信息"
         }
       },
       {
         path: "DetailParamInfo",
         component: DetailParamInfo,
-        meta : {
-          title : "参数详情"
+        meta: {
+          title: "参数详情"
         }
       },
       {
         path: "CommentInfo",
         component: DetailCommentInfo,
-        meta : {
-          title : "商品评论"
+        meta: {
+          title: "商品评论"
         }
       },
       {
         path: "RecommendInfo",
         component: DetailRecommendInfo,
-        meta : {
-          title : "推荐列表"
+        meta: {
+          title: "推荐列表"
         }
       }
     ]
@@ -99,30 +99,30 @@ const routes = [
   {
     path: "/settlement",
     component: Settlement,
-    meta : {
-      title : "收藏"
+    meta: {
+      title: "收藏"
     }
   },
   // 登录和注册路由
   {
     path: "/signIn",
     component: SignIn,
-    meta : {
-      title : "登录"
+    meta: {
+      title: "登录"
     }
   },
   {
     path: "/register",
     component: Register,
-    meta :{
-      title : "注册"
+    meta: {
+      title: "注册"
     }
   },
   {
     path: "*",
     component: Home,
-    meta : {
-      title : "主页"
+    meta: {
+      title: "主页"
     }
   }
 ]
@@ -139,14 +139,19 @@ Router.prototype.push = function push(to) {
   return RouterPush.call(this, to).catch(err => err)
 }
 router.beforeEach((to, from, next) => {
-  // 从from -> to
+  // 从from -> to,上一个路由跳转到下一个路由
   document.title = to.matched[0].meta.title
-  // 需要验证权限的一些路由
-  let auth = ['/user/username', '/user/password', '/user/birthday'];
-  if (auth.includes(to.fullPath)) {
-    // 做验证操作,如果携带token，则通行
-    console.log("验证token");
+  // 需要验证登录状态的一些路由
+  let auth_loginStatus = ['/cart'];
+  if (auth_loginStatus.includes(to.fullPath)) {
+    // 做验证操作,若用户登录,则通行
+    console.log(sessionStorage)
+    // if(this.$store.state.loginStatus){
+
+    // }
+
   }
+  // 做权限管理的规则
   next();
 })
 export default router

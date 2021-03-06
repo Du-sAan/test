@@ -2,62 +2,99 @@
   <div class="container">
     <form class="login-form">
       <h2>注 册 界 面</h2>
-      <input type="text" name="username" v-model="username" placeholder="用户名"/>
+      <input type="text" name="username" v-model="username" placeholder="用户名" />
       <input type="password" name="password" v-model="passwd" placeholder="密码" />
-      <input type="text" name="phone" v-model="phone" placeholder="手机">
-      <input type="text" name="email" v-model="email" placeholder="邮箱">
+      <input type="text" name="phone" v-model="phone" placeholder="手机" />
+      <input type="text" name="email" v-model="email" placeholder="邮箱" />
       <button type="button" @click="register">注册</button>
     </form>
+    <toast :show="show" :message="message" />
   </div>
 </template>
 
 <script>
+import Toast from "components/common/toast/Toast.vue";
 export default {
   name: "Register",
-  data () {
+  data() {
     return {
+      message: "",
+      show: false,
       username: "",
-      passwd : "",
-      phone : "",
-      email : "",
+      passwd: "",
+      phone: "",
+      email: "",
       // 简单的手机/用户名/邮箱正则测试,用户名必须是非空字符
       usernameReg: /.+/, //至少一个字符
-      passwdReg : /.{3,16}/, //3-16位字符
-      phoneReg : /^1\d{10}/, //以1开头的11位数组
-      emailReg : /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/, //网上抄的
-    }
+      passwdReg: /.{3,16}/, //3-16位字符
+      phoneReg: /^1\d{10}/, //以1开头的11位数组
+      emailReg: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/ //网上抄的
+    };
+  },
+  components: {
+    Toast
   },
   methods: {
     // 用sessionStorage模拟注册
-    register(){
-      const userInfo = {}
-      userInfo.username = this.username 
-      userInfo.passwd = this.passwd
-      userInfo.phone = this.phone
-      userInfo.email = this.phone
-      if(!this.usernameReg.test(this.username)) {
-        alert("用户名格式不正确")
-        return
+    register() {
+      const userInfo = {};
+      userInfo.username = this.username;
+      userInfo.passwd = this.passwd;
+      userInfo.phone = this.phone;
+      userInfo.email = this.phone;
+      if (!this.usernameReg.test(this.username)) {
+        this.show = true;
+        this.message = "用户名格式为至少一个字符";
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+        return;
       }
-      if(!this.passwdReg.test(this.passwd)){
-        alert("密码格式不正确") 
-        return
+      if (!this.passwdReg.test(this.passwd)) {
+        this.show = true;
+        this.message = "密码格式为3-16字符";
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+        return;
       }
-      if(!this.phoneReg.test(this.phone)){
-        alert("手机格式不正确") 
-        return
+      if (!this.phoneReg.test(this.phone)) {
+        this.show = true;
+        this.message = "手机格式不正确";
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+        return;
       }
-      if(!this.emailReg.test(this.email)){
-        alert("邮件格式不正确")
-        return
+      if (!this.emailReg.test(this.email)) {
+        this.show = true;
+        this.message = "邮箱格式不正确";
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+        return;
       }
-      if(sessionStorage.getItem(this.phone)){
-        alert("该手机已被注册")
-        return
+      if (sessionStorage.getItem(this.phone)) {
+        this.show = true;
+        this.message = "该手机已被注册";
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+        return;
       }
-      sessionStorage.setItem(this.phone,JSON.stringify(userInfo))
-      alert("注册成功")
-      this.$router.push("/signin")
+      sessionStorage.setItem(this.phone, JSON.stringify(userInfo));
+      this.show = true;
+      this.message = "注册成功";
+      setTimeout(() => {
+        this.show = false;
+        this.message = "";
+        this.$router.push("/signin");
+      }, 1000);
     }
   }
 };
@@ -210,5 +247,4 @@ export default {
   transform: translateX(320px);
   opacity: 1;
 }
-
 </style>
