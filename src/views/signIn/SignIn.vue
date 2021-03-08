@@ -82,12 +82,13 @@ export default {
             (this.show = false), (this.message = "");
           }, 1000);
           return;
-        } else {
+        } 
+        else {
           // 若密码正确
           this.show = true;
           this.message = "登录成功！";
           setTimeout(() => {
-            // 状态改为true,
+            // 登录状态改为true,已登录
             this.$store.commit("login", {
               // 负载：登录状态，用户信息
               status: true,

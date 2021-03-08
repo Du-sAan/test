@@ -19,7 +19,7 @@ export function request(config){
     return results.data
   }, err => {
     console.log(err)
-  })
+  }) 
   // 3.发送网络请求
   return instance(config)
 }
