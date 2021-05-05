@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     sign() {
+      console.log(this.phone)
       // 表单校验,密码登录
       let check = sessionStorage.getItem(this.phone);
       // 如果输入的是错误的手机号
@@ -154,7 +155,7 @@ export default {
     // 产生随机验证码
     getCode() {
       // 用随机数来充当验证码
-      const p  = getCode( )
+      const p  = getCode()
       let p2 = p.then( res => {
         console.log(res)
         this.checkCode = res.checkCode

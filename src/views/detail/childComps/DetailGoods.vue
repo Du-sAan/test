@@ -3,9 +3,8 @@
     <detail-swiper :topImgs="topImgs" />
     <detail-base-info :goods="goods" />
     <detail-shop-info :shop="shop" />
-    <!-- :detailGoodslInfo="detailGoodslInfo" @imagesLoad="imagesLoad" -->
     <!-- 图片等 -->
-    <detail-goods-info :detailGoodslInfo="detailGoodslInfo" />
+    <!-- <detail-goods-info :detailGoodslInfo="detailGoodslInfo" /> -->
   </div>
 </template>
 
@@ -32,19 +31,16 @@ export default {
   },
   props: {
     topImgs: {
-      type: Array,
       default: function() {
         return [];
       }
     },
     goods: {
-      type: Object,
       default: function() {
         return {a : 1};
       }
     },
     shop: {
-      type: Object,
       default: function() {
         return {};
       }

@@ -26,19 +26,11 @@ export default {
   name: "DetailBaseInfo",
   props : {
     goods : {
-      type : Object,
-      defaule (){
-        return {}
-      }
+      type : Object
+    },
+    created () {
+      setTimeout( console.log, 0, this.goods  )
     }
-  },
-  data () {
-    return {
-      goods1 : {}
-    }
-  },
-  created () {
-    
   }
 };
 </script>

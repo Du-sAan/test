@@ -29,13 +29,16 @@ export default {
           return (
             preValue +
             item.count *
-              parseFloat(item.newPrice.replace(/¥|~/g, "").slice(0, 5)).toFixed(2)
+              parseFloat(item.newPrice.replace(/¥|~/g, "").slice(0, 5)).toFixed(
+                2
+              )
           );
         }, 0);
     },
     isSelectAll: function() {
       return (
-        this.$store.state.GoodList.find(item => item.checked === false) === undefined
+        this.$store.state.GoodList.find(item => item.checked === false) ===
+        undefined
       );
     }
   },
@@ -55,10 +58,11 @@ export default {
         });
       }
     },
-    clear(){
-      this.$store.commit("clearGoodList")
+    clear() {
+      this.$store.commit("clearGoodList");
     },
-    settlement(){
+    settlement() {
+      
       this.$router.push("/settlement")
     }
   }
@@ -103,11 +107,10 @@ export default {
   line-height: 44px;
   float: right;
 }
-.bottom-menu span:nth-of-type(3){
+.bottom-menu span:nth-of-type(3) {
   margin-left: 1rem;
   text-align: center;
   line-height: 44px;
   color: rgb(245, 106, 26);
 }
-
 </style>

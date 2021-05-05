@@ -11,8 +11,9 @@
           <tab-content-category 
             :subcategories="showSubcategory" 
           />
+          <!-- '综合', '新品', '销量' -->
           <tab-control 
-            :titles="['综合', '新品', '销量']"
+            :titles="['全部']"
             @itemClick="tabClick" 
           />
           <tab-content-detail 

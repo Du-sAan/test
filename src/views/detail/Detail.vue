@@ -6,11 +6,7 @@
       是否触发触底事件
       滚动事件
     -->
-    <bscroll 
-      :probe-type="3" 
-      :pullUpLoad="true" 
-      ref="bscroll" 
-      @contentScroll="contentScroll
+    <bscroll :probe-type="3" :pullUpLoad="true" ref="bscroll" @contentScroll="contentScroll
     ">
       <!-- 子路由 -->
       <keep-alive>
@@ -26,22 +22,16 @@
       </keep-alive>
     </bscroll>
     <!-- 回到顶部按钮 -->
-    <back-top 
-      @click.native="backTop" 
-      v-show="isShowBackTop" 
-    />
+    <back-top @click.native="backTop" v-show="isShowBackTop" />
     <!-- 底部工具栏 -->
-    <detail-bottom-bar 
-      @addGood="addGood" 
+    <detail-bottom-bar
+      @addGood="addGood"
       @collection="collection"
-      @buyGood="buyGood" 
-      ref="bottomBar" 
+      @buyGood="buyGood"
+      ref="bottomBar"
     />
     <!-- 提示框 -->
-    <toast 
-      :show="show" 
-      :message="message" 
-    />
+    <toast :show="show" :message="message" />
   </div>
 </template>
 
@@ -75,7 +65,7 @@ export default {
     return {
       show: false,
       message: "",
-      iid: "",
+      iid: "1m745k0",
       topImgs: [],
       goods: {},
       shop: {},
@@ -89,17 +79,9 @@ export default {
   },
   created() {
     // 切换路由时，拿到从home点击的商品iid,然后根据iid请求数据
-    this.iid = this.$route.query.iid;
+    // this.iid = this.$route.query.iid;
     this.getDetailData();
   },
-  // activated () {
-  //   // 判断本地存储，是否收藏商品，若有，则收藏键为空
-  //   if(localStorage.getItem(`${this.iid}`)){
-  //     this.$refs.bottomBar.isCollection = true
-  //   }else{
-  //     this.$refs.bottomBar.isCollection = false
-  //   }
-  // },
   mounted() {
     // 监听goodsListItem的发送的事件总线，然后刷新content的高度
     // 防抖操作
@@ -113,11 +95,12 @@ export default {
       // 请求详情页的所有数据，除推荐
       let get = getDetailData(this.iid).then(
         res => {
-          const data = res.result;
 
+          const data = res.result;
+          console.log(data)
           this.DetailData = data;
           // 1.保存轮播图的数据
-          this.topImgs = res.result.itemInfo.topImages;
+          this.topImgs = data.itemInfo.topImages;
 
           // 将请求的数据封装到一个对象内
           // 2.封装需要的商品的详细信息
@@ -225,11 +208,31 @@ export default {
     },
     // 收藏按钮
     collection() {
-      // window.localStorage.setItem(`${this.iid}`,`${this.iid}`)
+      // 若未登录
+      if (!this.$store.state.loginStatus) {
+        this.show = true;
+        this.message = "请登录";
+        this.$refs.bottomBar.isCollection = false;
+        setTimeout(() => {
+          this.show = false;
+          this.message = "";
+        }, 1000);
+        return;
+      }
       if (this.$refs.bottomBar.isCollection) {
-        // 加入本地存储
+        // 加入vue-x
         this.show = true;
         this.message = "收藏成功";
+        // 购买商品，将商品信息穿给状态管理，然后跳转页面
+        const product = {};
+        // 2.添加商品描述信息
+        product.iid = this.iid;
+        product.imgURL = this.topImgs[0];
+        product.title = this.goods.title;
+        product.desc = this.goods.desc;
+        product.newPrice = this.goods.newPrice;
+
+        
 
         setTimeout(() => {
           this.show = false;
@@ -244,7 +247,7 @@ export default {
         }, 1000);
       }
     },
-    buyGood(){
+    buyGood() {
       // 购买商品，将商品信息穿给状态管理，然后跳转页面
       const product = {};
       // 2.添加商品描述信息
@@ -255,8 +258,8 @@ export default {
       product.newPrice = this.goods.newPrice;
       // 3.添加到状态管理中,拿到返回的Promise
       let p = this.$store.dispatch("addGood", product);
-      
-      this.$router.push("/cart")
+
+      this.$router.push("/cart");
     }
   }
 };

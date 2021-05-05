@@ -1,8 +1,8 @@
 <template>
   <swiper>
     <swiper-item 
-      v-for="item of topImgs" 
-      :key="item"
+      v-for="(item,index) of topImgs" 
+      :key="index"
     >
       <img :src="item" alt="">
     </swiper-item>

@@ -25,7 +25,7 @@
 
 <style scoped>
   #list {
-    background-color: #fff;
+    /* background-color: #fff; */
     font-size: 15px;
     color: #333;
   }
@@ -50,7 +50,7 @@
 
   .item .info {
     margin-left: 40px;
-    border-bottom: 1px solid rgba(100, 100, 100, .1);
+    border-bottom: 1px solid rgba(100, 100, 100, .5);
     padding-left: 5px;
   }
 

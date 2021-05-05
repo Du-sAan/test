@@ -114,18 +114,18 @@ export default {
             // 这里因为是箭头函数，所以this是created的this,
             // 而created的this指向实现created的组件
             // console.log(res)
-            this.banners = res.data.banner.list;
-            this.recommend = res.data.recommend.list;
-            // 拦截器 this.banner = red.data.data.recommend.list
-            console.log("轮播图，推荐数据请求成功");
+            this.banners = res.home_banners
+            this.recommend = res.home_recommend
+            // this.banners = res.data.banner.list;
+            // this.recommend = res.data.recommend.list;
           } else {
             // 响应失败
             this.show = true;
-            this.message = "您的网络似乎出了点小问题，请上拉刷新重试";
+            this.message = "您的网络似乎出了点小问题，请刷新重试";
             setTimeout(() => {
               this.show = false;
               this.message = "";
-            }, 2000);
+            }, 3000);
           }
         },
         err => {
@@ -144,13 +144,12 @@ export default {
       getHomeGoods(type, page).then(
         res => {
           if (res) {
-            // 将请求成功的数据，添加到对应type的list中,在将相应的页码+1
-            this.goods[type].list.push(...res.data.list);
+            // 将请求成功的数据，添加到对应type的list中,在将相应的页码+1 res[type].list res.data.list
+            this.goods[type].list.push(...res[type].list);
             this.goods[type].page += 1;
-
+            console.log(this.goods)
             // 刷新触底函数的次数
             this.$refs.scroll.finishPullUp();
-            console.log("流行，新款，精选数据请求成功");
           } else {
             // 响应失败
             this.show = true;
