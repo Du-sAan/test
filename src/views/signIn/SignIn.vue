@@ -39,7 +39,7 @@
 <script>
 import Toast from "components/common/toast/Toast.vue";
 // 导入mock/网络请求模块
-import { getCode} from "network/profile_request.js"
+import profile from "network/profile_request.js";
 export default {
   name: "SignIn",
   components: {
@@ -56,16 +56,18 @@ export default {
       // 用户输入的验证码
       code: "",
       //  模拟的验证码
-      checkCode: ""
+      checkCode: "",
+      phoneReg: /^1\d{10}/
     };
   },
   methods: {
     sign() {
-      console.log(this.phone)
+      console.log(this.phone, this.passwd);
       // 表单校验,密码登录
       let check = sessionStorage.getItem(this.phone);
       // 如果输入的是错误的手机号
-      if (!check) {
+      let isRight = this.phoneReg.test(this.phone);
+      if (!isRight) {
         this.show = true;
         this.message = "该手机号不存在!";
         setTimeout(() => {
@@ -75,36 +77,45 @@ export default {
       }
       // 如果登录方式为密码登录
       if (this.method === "passwd") {
-        // 如果输入的是错误的密码
-        if (!(JSON.parse(check).passwd === this.passwd)) {
-          this.show = true;
-          this.message = "密码错误!";
-          setTimeout(() => {
-            (this.show = false), (this.message = "");
-          }, 1000);
-          return;
-        } 
-        else {
-          // 若密码正确
-          this.show = true;
-          this.message = "登录成功！";
-          setTimeout(() => {
-            // 登录状态改为true,已登录
-            this.$store.commit("login", {
-              // 负载：登录状态，用户信息
-              status: true,
-              username : JSON.parse(check).username,
-              info: JSON.parse(check)
-            });
-            this.show = false;
-            this.message = "";
-            this.phone = "";
-            this.code = "";
-            this.checkCode = "";
-            this.passwd = "";
-            this.$router.push("/profile");
-          }, 1000);
-        }
+        let result = profile.signln({
+          phone: this.phone,
+          passwd: this.passwd
+        });
+        result.then(res => {
+          console.log(res);
+          // 如果输入的是错误的密码
+          if (!res.data.isSignln) {
+            this.show = true;
+            this.message = "密码错误!";
+            setTimeout(() => {
+              (this.show = false), (this.message = "");
+            }, 1000);
+            return;
+          } else {
+            // 若密码正确
+            this.show = true;
+            this.message = "登录成功！";
+            setTimeout(() => {
+              // 登录状态改为true,已登录
+              this.$store.commit("login", {
+                // 负载：登录状态，用户信息
+                status: true,
+                username: res.data.info.username,
+                info: res.data.info
+              });
+              this.show = false;
+              this.message = "";
+              this.phone = "";
+              this.code = "";
+              this.checkCode = "";
+              this.passwd = "";
+              this.$router.push("/profile");
+            }, 1000);
+          }
+        });
+        result.catch(err => {
+          console.log(err);
+        });
       }
       // 如果登录方式为验证码
       if (this.method === "code") {
@@ -122,7 +133,7 @@ export default {
             this.$store.commit("login", {
               // 负载：登录状态，用户信息
               status: true,
-              username : JSON.parse(check).username,
+              username: JSON.parse(check).username,
               info: JSON.parse(sessionStorage.getItem(this.phone))
             });
             // 登录成功，跳转到个人信息
@@ -155,21 +166,24 @@ export default {
     // 产生随机验证码
     getCode() {
       // 用随机数来充当验证码
-      const p  = getCode()
-      let p2 = p.then( res => {
-        console.log(res)
-        this.checkCode = res.checkCode
-      },rec => {
-        this.checkCode = "获取验证码失败"+rec
-      })
+      const p = profile.getCode();
+      let p2 = p.then(
+        res => {
+          console.log(res);
+          this.checkCode = res.checkCode;
+        },
+        rec => {
+          this.checkCode = "获取验证码失败" + rec;
+        }
+      );
       p2.then(res => {
         this.show = true;
         this.message = `您的验证码为 ${this.checkCode} \t有效期为下一次验证码前`;
         setTimeout(() => {
-        this.show = false;
-        this.message = "";
-      }, 10000);
-      })
+          this.show = false;
+          this.message = "";
+        }, 10000);
+      });
     },
     methodWd() {
       this.method = "passwd";

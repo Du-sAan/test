@@ -37,6 +37,7 @@ Mock.mock(RegExp(BASE_URL + '/recommend'),"get", (options) => {
 })
 // 验证码虚拟数据
 Mock.mock(BASE_URL + '/profile/sign/getCode' , 'get', (options) => {
+  console.log("mock拦截")
   return {
     checkCode: `${parseInt(Math.random() * 1000000)}`
   }

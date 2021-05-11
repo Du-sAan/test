@@ -14,6 +14,7 @@
 
 <script>
 import Toast from "components/common/toast/Toast.vue";
+import profile from "network/profile_request.js";
 export default {
   name: "Register",
   data() {
@@ -42,6 +43,7 @@ export default {
       userInfo.passwd = this.passwd;
       userInfo.phone = this.phone;
       userInfo.email = this.phone;
+      // 用户名格式校验
       if (!this.usernameReg.test(this.username)) {
         this.show = true;
         this.message = "用户名格式为至少一个字符";
@@ -51,6 +53,7 @@ export default {
         }, 1000);
         return;
       }
+      // 密码格式校验
       if (!this.passwdReg.test(this.passwd)) {
         this.show = true;
         this.message = "密码格式为3-16字符";
@@ -60,6 +63,7 @@ export default {
         }, 1000);
         return;
       }
+      // 手机号格式
       if (!this.phoneReg.test(this.phone)) {
         this.show = true;
         this.message = "手机格式不正确";
@@ -69,6 +73,7 @@ export default {
         }, 1000);
         return;
       }
+      // 邮箱格式
       if (!this.emailReg.test(this.email)) {
         this.show = true;
         this.message = "邮箱格式不正确";
@@ -78,23 +83,23 @@ export default {
         }, 1000);
         return;
       }
-      if (sessionStorage.getItem(this.phone)) {
-        this.show = true;
-        this.message = "该手机已被注册";
+
+      // 发送请求，注册用户
+      profile.register(userInfo).then(res => {
+        console.log("---用户注册", res);
+        if (res.data.isReigstered) {
+          this.show = true;
+          this.message = "注册成功";
+        } else {
+          this.show = true;
+          this.message = "手机号已注册";
+        }
         setTimeout(() => {
           this.show = false;
           this.message = "";
-        }, 1000);
-        return;
-      }
-      sessionStorage.setItem(this.phone, JSON.stringify(userInfo));
-      this.show = true;
-      this.message = "注册成功";
-      setTimeout(() => {
-        this.show = false;
-        this.message = "";
-        this.$router.push("/signin");
-      }, 1000);
+          this.$router.push("/signin");
+        }, 2000);
+      });
     }
   }
 };

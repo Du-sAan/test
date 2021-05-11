@@ -6,7 +6,7 @@
           <!-- <img src="~assets/img/profile/avatar.jpeg" alt="头像"> -->
         </div>
       </slot>
-      <div class="login-info left" @click="signIn" v-show="!$store.state.loginStatus">
+      <div class="login-info left" @click="signIn" v-show="!this.$store.state.loginStatus">
         <slot name="user-nickname">
           <div>登录/注册</div>
         </slot>
@@ -19,9 +19,10 @@
           <slot name="user-phone">暂无绑定手机号</slot>
         </div>
       </div>
-      <div class="login-info left" v-show="$store.state.loginStatus">
-        <span class="username">{{username}}</span>
-        <i>※</i>
+      <div class="login-info left" v-show="this.$store.state.loginStatus">
+        <span class="username" >{{username}}</span>
+        <br />
+        <span class="username">你好</span>
       </div>
       <div class="log-out" @click="loginOut">退出登录</div>
     </a>
@@ -35,15 +36,20 @@ export default {
   name: "UserInfo",
   data() {
     return {
-      showInfo: this.$store.state.loginStatus,
-      data: this.$store.state.userInfo[0],
-      username: "你好",
+      showInfo: false,
+      data: {},
+      username: "",
       show: false,
       message: ""
     };
   },
   components: {
     Toast
+  },
+  created() {
+    this.showInfo = this.$store.state.loginStatus;
+    this.data = this.$store.state.userInfo;
+    this.username = this.$store.state.userInfo.username
   },
   methods: {
     signIn() {
@@ -130,8 +136,9 @@ export default {
 }
 .username {
   color: #333;
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin-left: 20px;
   font-weight: 600;
 }
+
 </style>

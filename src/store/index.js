@@ -14,7 +14,7 @@ const state = {
   loginStatus : false,
   username : "",
   // 如用户有多个账户
-  userInfo : [],
+  userInfo : {},
   recommend : new Set(),
 }
 

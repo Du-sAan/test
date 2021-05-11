@@ -15,6 +15,7 @@ const itemInfo = {
   title: "这里是关于商品信息的具体描述，用mockjs生成的",
   discountDesc: "促销价",
   price: "¥68.00~¥98.00",
+  desc : "这是商品"
 }
 const detailInfo = {
   desc: "mock-关于商品的描述~~",
@@ -38,40 +39,40 @@ const itemParams = {
         value: "mockjs生成的关于商品信息的描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       }, {
         key: "mockjs生成key,如保质期等",
-        value: "mockjs生成的关于商品信息的描述信息"
+        value: "描述信息"
       },
     ]
   },
@@ -108,7 +109,7 @@ const rate = {
       style: "颜色:白色 尺码:XL ",
       user: {
         avatar: "//s11.mogucdn.com/p2/161214/103488673_0l1ff9kf2hbc32fe4a2g05l77d89d_140x140.png",
-        uname: "西瓜女皇i2009",
+        uname: "四川大学锦江学院",
       }
     }
   ],

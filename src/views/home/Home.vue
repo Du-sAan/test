@@ -147,7 +147,6 @@ export default {
             // 将请求成功的数据，添加到对应type的list中,在将相应的页码+1 res[type].list res.data.list
             this.goods[type].list.push(...res[type].list);
             this.goods[type].page += 1;
-            console.log(this.goods)
             // 刷新触底函数的次数
             this.$refs.scroll.finishPullUp();
           } else {

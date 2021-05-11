@@ -3,6 +3,9 @@
 node_modules
 /dist
 响应式布局
+database
+模块化&Vue响应式原理
+研究axios
 
 # local env files
 .env.local
