@@ -10,12 +10,13 @@ for (let i = 0; i < 4; i++) {
   })
   topImg[i] = result.image
 }
+
 const itemInfo = {
   topImages: topImg,
-  title: "这里是关于商品信息的具体描述，用mockjs生成的",
+  title: "这里是关于商品信息的具体描述文本，用mockjs生成的",
   discountDesc: "促销价",
-  price: "¥68.00~¥98.00",
-  desc : "这是商品"
+  price: "¥68.00",
+  desc : "商品描述信息在这里，用mockjs生成的"
 }
 const detailInfo = {
   desc: "mock-关于商品的描述~~",

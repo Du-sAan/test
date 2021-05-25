@@ -95,9 +95,8 @@ export default {
       // 请求详情页的所有数据，除推荐
       let get = getDetailData(this.iid).then(
         res => {
-
           const data = res.result;
-          console.log(data)
+          console.log(data);
           this.DetailData = data;
           // 1.保存轮播图的数据
           this.topImgs = data.itemInfo.topImages;
@@ -219,21 +218,21 @@ export default {
         }, 1000);
         return;
       }
+      let product = {};
+      // 2.添加商品描述信息
+      product.iid = this.iid;
+      product.imgURL = this.topImgs[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.newPrice = this.goods.newPrice;
+
       if (this.$refs.bottomBar.isCollection) {
         // 加入vue-x
         this.show = true;
         this.message = "收藏成功";
         // 购买商品，将商品信息穿给状态管理，然后跳转页面
-        const product = {};
-        // 2.添加商品描述信息
-        product.iid = this.iid;
-        product.imgURL = this.topImgs[0];
-        product.title = this.goods.title;
-        product.desc = this.goods.desc;
-        product.newPrice = this.goods.newPrice;
-
-        
-
+        // 提交收藏到状态管理
+        this.$store.commit("collection", product);
         setTimeout(() => {
           this.show = false;
           this.message = "";
@@ -241,6 +240,7 @@ export default {
       } else {
         this.show = true;
         this.message = "取消收藏";
+        this.$store.commit("cancelCollection",product);
         setTimeout(() => {
           this.show = false;
           this.message = "";

@@ -1,8 +1,8 @@
 export default {
   addGoodCount(state, params) {
     // 增加相同商品的数量
-    state.GoodList.forEach( item => {
-      if(item.iid === params.iid){
+    state.GoodList.forEach(item => {
+      if (item.iid === params.iid) {
         item.count++
       }
     })
@@ -11,23 +11,29 @@ export default {
     // 增加新的商品
     state.GoodList.push(params)
   },
-  buyGood(state, params){
+  buyGood(state, params) {
     state.GoodList.push(params)
   },
-  clearGoodList(state){
+  clearGoodList(state) {
     state.GoodList = [];
   },
-  login(state,params){
+  login(state, params) {
     // 改变用户登录状态
     state.loginStatus = params.status;
     state.username = params.username
     // 将用户信息存入状态管理
     state.userInfo = params.info
   },
-  loginOut(state){
+  loginOut(state) {
     state.loginStatus = false;
     state.username = ""
     // 将用户信息存入状态管理
     state.userInfo = []
+  },
+  collection(state, params) {
+    state.collectionList.push(params)
+  },
+  cancelCollection(state, params){
+    state.collectionList
   }
 }

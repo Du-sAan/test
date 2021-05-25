@@ -10,14 +10,26 @@ Mock.mock(BASE_URL + '/home/multidata', "get", (options) => {
 import homeGoods from "./getHomeGoods"
 Mock.mock(RegExp(BASE_URL + '/home/data' + '.*'), "get", (options) => {
   return {
-    new : {
-      list : homeGoods
+    new: {
+      list: homeGoods
     },
-    pop : {
-      list : homeGoods
+    pop: {
+      list: homeGoods
     },
-    sell : {
-      list : homeGoods
+    sell: {
+      list: homeGoods
+    }
+  }
+})
+
+// category/data
+import categoryData from "./category"
+Mock.mock(RegExp(BASE_URL + '/subcategory' + '.*'), "get", (options) => {
+  return {
+    data: {
+      list : categoryData.list,
+      goods : categoryData.goods,
+      code : "200"
     }
   }
 })
@@ -28,15 +40,15 @@ Mock.mock(RegExp(BASE_URL + '/detail' + '.*'), "get", (options) => {
   return datailData
 })
 
-Mock.mock(RegExp(BASE_URL + '/recommend'),"get", (options) => {
+Mock.mock(RegExp(BASE_URL + '/recommend'), "get", (options) => {
   return {
-    data : {
-      list : homeGoods
+    data: {
+      list: homeGoods
     }
   }
 })
 // 验证码虚拟数据
-Mock.mock(BASE_URL + '/profile/sign/getCode' , 'get', (options) => {
+Mock.mock(BASE_URL + '/profile/sign/getCode', 'get', (options) => {
   console.log("mock拦截")
   return {
     checkCode: `${parseInt(Math.random() * 1000000)}`

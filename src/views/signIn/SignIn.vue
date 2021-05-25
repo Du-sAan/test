@@ -62,11 +62,11 @@ export default {
   },
   methods: {
     sign() {
-      console.log(this.phone, this.passwd);
+      console.log("登录请求");
       // 表单校验,密码登录
-      let check = sessionStorage.getItem(this.phone);
       // 如果输入的是错误的手机号
       let isRight = this.phoneReg.test(this.phone);
+
       if (!isRight) {
         this.show = true;
         this.message = "该手机号不存在!";
@@ -114,7 +114,12 @@ export default {
           }
         });
         result.catch(err => {
-          console.log(err);
+          this.show = true;
+          this.message = "网络异常";
+          setTimeout( () => {
+            this.show = false
+            this.message = ""
+          }, 2000 , )
         });
       }
       // 如果登录方式为验证码

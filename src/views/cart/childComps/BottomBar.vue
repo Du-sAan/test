@@ -62,8 +62,10 @@ export default {
       this.$store.commit("clearGoodList");
     },
     settlement() {
-      
-      this.$router.push("/settlement")
+      // 是否登录
+      if(this.$store.state.isSignln){
+        this.$router.push("/settlement")
+      }
     }
   }
 };

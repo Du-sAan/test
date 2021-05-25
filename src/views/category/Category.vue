@@ -1,6 +1,7 @@
 <template>
   <div id="category">
     <nav-bar class="nav-bar"><div slot="center">商品分类</div></nav-bar>
+    <toast :message="message" :show="show"/>
     <div class="content">
       <tab-menu 
         :categories="categories"
@@ -33,6 +34,7 @@
   import Scroll from 'components/common/bscroll/Bscroll'
   import TabContentCategory from './childComps/TabContentCategory'
   import TabContentDetail from './childComps/TabContentDetail'
+  import Toast from "components/common/toast/Toast"
 
   import {
     getCategory, 
@@ -50,15 +52,20 @@
       TabControl,
       Scroll,
       TabContentCategory,
-      TabContentDetail
+      TabContentDetail,
+      Toast
     },
     mixins: [tabControlMixin],
     data() {
 		  return {
+        // 菜单
 		    categories: [],
+        // 菜单对应的数据
         categoryData: {
         },
-        currentIndex: -1
+        currentIndex: -1,
+        message : "",
+        show : false
       }
     },
     created() {
@@ -77,8 +84,10 @@
     },
     methods: {
 		  _getCategory() {
-		    getCategory().then(res => {
-		      // 1.获取分类数据
+		    getCategory()
+        .then(res => {
+          console.log(res)
+		      // 1.获取分类数据,初始化左侧菜单栏
 		      this.categories = res.data.category.list
           // 2.初始化每个类别的子数据
           for (let i = 0; i < this.categories.length; i++) {
@@ -94,7 +103,16 @@
           // 3.请求第一个分类的数据
           this._getSubcategories(0)
         })
+        .catch(rec => {
+          this.show = true
+          this.message = "网络异常"
+          setTimeout( () => {
+            this.show = false
+          this.message = ""
+          }, 2000 , )
+        })
       },
+      // 请求上方图片信息
       _getSubcategories(index) {
         this.currentIndex = index;
 		    const mailKey = this.categories[index].maitKey;
@@ -102,8 +120,8 @@
           this.categoryData[index].subcategories = res.data
           this.categoryData = {...this.categoryData}
           this._getCategoryDetail(POP)
-          this._getCategoryDetail(SELL)
-          this._getCategoryDetail(NEW)
+          // this._getCategoryDetail(SELL)
+          // this._getCategoryDetail(NEW)
         })
       },
       _getCategoryDetail(type) {
@@ -112,7 +130,7 @@
         // 2.发送请求,传入miniWallkey和type
 		    getCategoryDetail(miniWallkey, type).then(res => {
 		      // 3.将获取的数据保存下来
-		      this.categoryData[this.currentIndex].categoryDetail[type] = res
+		      this.categoryData[this.currentIndex].categoryDetail[type] = res.data.goods
           this.categoryData = {...this.categoryData}
         })
       },
@@ -120,7 +138,8 @@
        * 事件响应相关的方法
        */
       selectItem(index) {
-        this._getSubcategories(index)
+        // 参数为index
+        this._getSubcategories(0)
       }
     }
 	}

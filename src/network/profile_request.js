@@ -40,6 +40,13 @@ function signln(info) {
     data: JSON.stringify(info)
   })
 }
+let p = register({
+  username : "hm",
+  phone : "15228551217",
+  passwd : "123456",
+  email: "dasdad@qq.com"
+})
+
 export default {
   getUserInfo,
   getCode,

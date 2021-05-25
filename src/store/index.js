@@ -13,9 +13,11 @@ const state = {
   // 登录状态
   loginStatus : false,
   username : "",
-  // 如用户有多个账户
+  // 用户有
   userInfo : {},
   recommend : new Set(),
+  // 收藏列表
+  collectionList : []
 }
 
 export default new Vuex.Store({

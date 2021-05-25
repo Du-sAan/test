@@ -38,11 +38,12 @@ export default {
   methods: {
     // 用sessionStorage模拟注册
     register() {
-      const userInfo = {};
-      userInfo.username = this.username;
-      userInfo.passwd = this.passwd;
-      userInfo.phone = this.phone;
-      userInfo.email = this.phone;
+      const userInfo = {
+        username: this.username,
+        passwd: this.passwd,
+        phone: this.phone,
+        email: this.phone
+      };
       // 用户名格式校验
       if (!this.usernameReg.test(this.username)) {
         this.show = true;
@@ -85,7 +86,8 @@ export default {
       }
 
       // 发送请求，注册用户
-      profile.register(userInfo).then(res => {
+      let isRegister = profile.register(userInfo);
+      isRegister.then(res => {
         console.log("---用户注册", res);
         if (res.data.isReigstered) {
           this.show = true;
