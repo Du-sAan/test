@@ -32,8 +32,8 @@
     </section>
 
     <!--3.封装成一个整体-->
-    <list-view :list-data="orderList" class="order-list"></list-view>
-    <list-view :list-data="serviceList" class="service-list"></list-view>
+    <list-view :list-data="orderList" class="order-list" ></list-view>
+    <list-view :list-data="serviceList" class="service-list" @click.native="cart"></list-view>
   </div>
 </template>
 
@@ -62,7 +62,11 @@ export default {
       ]
     };
   },
-  mounted: function() {}
+  methods : {
+    cart (){
+      this.$router.push('/cart')
+    }
+  }
 };
 </script>
 
@@ -77,7 +81,7 @@ export default {
 }
 #profile {
   padding-top: 44px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     rgb(240, 135, 86),
     rgb(182, 240, 90),
@@ -87,7 +91,8 @@ export default {
   );
   background-size: 200% 200%;
 
-  animation: background-move 5s infinite alternate;
+  animation: background-move 5s infinite alternate; */
+  background-color: rgb(248, 248, 248);
   height: calc(100vh - 44px);
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="home-feature">
-    <a href="https://act.mogujie.com/zzlx67">
-      <img src="~assets/img/home/Feature_view.jpg" alt="蘑菇街">
+    <a href="javascript:;">
+      <img :src="img" alt="蘑菇街">
     </a>
     
   </div>
@@ -9,10 +9,20 @@
 </template>
 
 <script>
+import {popular} from "network/home_request.js"
 export default {
   name : "Fearture",
-  props : {
-
+  data (){
+    return {
+      img : ""
+    }
+  },
+  created(){
+    let p = popular();
+    p.then( res => {
+      console.log(res)
+      this.img = res ? res.image : "~assets/img/home/Feature_view.jpg"
+    })
   }
 }
 </script>

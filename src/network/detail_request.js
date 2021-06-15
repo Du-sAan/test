@@ -47,3 +47,5 @@ export function getRecommend(){
     url : '/recommend'
   })
 }
+// let p = getDetailData()
+// p.then(console.log,console.log)

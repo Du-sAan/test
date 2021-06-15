@@ -21,6 +21,10 @@ Mock.mock(RegExp(BASE_URL + '/home/data' + '.*'), "get", (options) => {
     }
   }
 })
+// home/popular
+Mock.mock(BASE_URL + '/home/popular', "get", (options) => {
+  return HomeMultidata.popular
+})
 
 // category/data
 import categoryData from "./category"

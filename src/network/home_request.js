@@ -17,3 +17,11 @@ export function getHomeGoods(type,page){
     }
   })
 }
+
+export function popular(){
+  return request({
+    url : "/home/popular"
+  })
+}
+// let p = getHomeGoods("sell", 1)
+// p.then(console.log,console.log)

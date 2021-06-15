@@ -29,9 +29,7 @@ export default {
           return (
             preValue +
             item.count *
-              parseFloat(item.newPrice.replace(/¥|~/g, "").slice(0, 5)).toFixed(
-                2
-              )
+              parseFloat(item.newPrice.replace(/¥|~/g, "").slice(0, 5)).toFixed(2)
           );
         }, 0);
     },
@@ -63,9 +61,7 @@ export default {
     },
     settlement() {
       // 是否登录
-      if(this.$store.state.isSignln){
-        this.$router.push("/settlement")
-      }
+      this.$emit("settlement");
     }
   }
 };

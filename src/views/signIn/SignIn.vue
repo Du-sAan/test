@@ -229,7 +229,7 @@ export default {
   flex-direction: column;
   /* align-items: center; */
   justify-content: center;
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     rgb(240, 135, 86),
     rgb(182, 240, 90),
@@ -239,7 +239,8 @@ export default {
   );
   background-size: 200% 200%;
 
-  animation: background-move 5s infinite alternate;
+  animation: background-move 5s infinite alternate; */
+  background-color: white;
 }
 .other-sign {
   flex: 1;
